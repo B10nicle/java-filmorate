@@ -34,8 +34,7 @@ public class InMemoryUserServiceImpl implements UserService {
         if (userStorage.getUsers().get(user.getId()) != null)
             throw new AlreadyAddedException("Пользователь: " + user.getId() + " " + user.getEmail() + " уже добавлен");
 
-        userStorage.addUser(user);
-        return user;
+        return userStorage.addUser(user);
     }
 
     @Override
@@ -45,8 +44,7 @@ public class InMemoryUserServiceImpl implements UserService {
         if (userStorage.getUsers().get(user.getId()) == null)
             throw new DoesntExistException("Пользователь: " + user.getId() + " " + user.getEmail() + " не сущестует");
 
-        userStorage.updateUser(user);
-        return user;
+        return userStorage.updateUser(user);
     }
 
     @Override

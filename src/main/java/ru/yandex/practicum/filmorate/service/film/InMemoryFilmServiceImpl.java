@@ -32,10 +32,9 @@ public class InMemoryFilmServiceImpl implements FilmService {
         filmValidator.validate(film);
 
         if (filmStorage.getFilms() == null
-                || filmStorage.getFilms().get(film.getId()) == null) {
-            filmStorage.getFilms().put(film.getId(), film);
-            return film;
-        } else
+                || filmStorage.getFilms().get(film.getId()) == null)
+            return filmStorage.getFilms().put(film.getId(), film);
+        else
             throw new AlreadyAddedException("Фильм: " + film.getDescription() + " уже добавлен");
     }
 
@@ -46,8 +45,7 @@ public class InMemoryFilmServiceImpl implements FilmService {
         if (filmStorage.getFilms().get(film.getId()) == null)
             throw new DoesntExistException("Фильм: " + film.getDescription() + " не сущестует");
 
-        filmStorage.getFilms().put(film.getId(), film);
-        return film;
+        return filmStorage.getFilms().put(film.getId(), film);
     }
 
     @Override
