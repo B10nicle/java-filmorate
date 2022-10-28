@@ -27,15 +27,13 @@ public class UserController {
     @PostMapping
     public User createUser(@RequestBody User user) {
         log.debug("Пользователь " + user.getEmail() + " добавлен");
-        userService.addUser(user);
-        return user;
+        return userService.addUser(user);
     }
 
     @PutMapping
     public User updateUser(@RequestBody User user) {
         log.debug("Пользователь " + user.getEmail() + " обновлён");
-        userService.updateUser(user);
-        return user;
+        return userService.updateUser(user);
     }
 
     @GetMapping
