@@ -27,13 +27,15 @@ public class FilmController {
     @PostMapping
     public Film createFilm(@RequestBody Film film) {
         log.debug("Фильм " + film.getName() + " добавлен");
-        return filmService.addFilm(film);
+        filmService.addFilm(film);
+        return film;
     }
 
     @PutMapping
     public Film updateFilm(@RequestBody Film film) {
         log.debug("Фильм " + film.getName() + " обновлён");
-        return filmService.updateFilm(film);
+        filmService.updateFilm(film);
+        return film;
     }
 
     @GetMapping

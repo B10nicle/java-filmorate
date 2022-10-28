@@ -29,9 +29,10 @@ public class InMemoryUserStorageImpl implements UserStorage {
 
     @Override
     public User updateUser(User user) {
-        if (users.containsKey(user.getId()))
-            return users.put(user.getId(), user);
-        else
+        if (users.containsKey(user.getId())) {
+            users.put(user.getId(), user);
+            return user;
+        } else
             throw new DoesntExistException("Пользователь: " + user.getId() + " " + user.getEmail() + " не сущестует");
     }
 
