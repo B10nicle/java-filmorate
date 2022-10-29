@@ -6,4 +6,4 @@
 
 На текущем этапе реализованы: controllers, entities, service layer, validation, storage layer.
 
-Тесты 16/16
+Тесты 17/17
