@@ -57,6 +57,11 @@ public class InMemoryUserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUser(int userId) {
+        return userStorage.getUser(userId);
+    }
+
+    @Override
     public void deleteUsers() {
         userStorage.deleteUsers();
     }

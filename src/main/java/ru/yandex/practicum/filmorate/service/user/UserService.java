@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.service.user;
 
+import ru.yandex.practicum.filmorate.entity.Film;
 import ru.yandex.practicum.filmorate.entity.User;
 
 import java.util.Map;
@@ -12,6 +13,8 @@ public interface UserService {
     User addUser(User user);
 
     User updateUser(User user);
+
+    User getUser(int userId);
 
     Map<Integer, User> getUsers();
 

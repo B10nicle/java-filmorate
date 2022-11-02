@@ -56,6 +56,11 @@ public class InMemoryFilmServiceImpl implements FilmService {
     }
 
     @Override
+    public Film getFilm(int filmId) {
+        return filmStorage.getFilm(filmId);
+    }
+
+    @Override
     public void deleteFilms() {
         filmStorage.deleteFilms();
     }
