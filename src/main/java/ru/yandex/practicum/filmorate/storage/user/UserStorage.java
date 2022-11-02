@@ -14,4 +14,8 @@ public interface UserStorage {
     User updateUser(User user);
 
     Map<Integer, User> getUsers();
+
+    void deleteUsers();
+
+    void deleteUser(int userId);
 }

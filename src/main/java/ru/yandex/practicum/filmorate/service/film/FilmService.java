@@ -14,4 +14,8 @@ public interface FilmService {
     Film updateFilm(Film film);
 
     Map<Integer, Film> getFilms();
+
+    void deleteFilms();
+
+    void deleteFilm(int filmId);
 }

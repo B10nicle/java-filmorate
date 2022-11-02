@@ -29,15 +29,33 @@ public class InMemoryUserStorageImpl implements UserStorage {
 
     @Override
     public User updateUser(User user) {
-        if (users.containsKey(user.getId())) {
-            users.put(user.getId(), user);
-            return user;
-        } else
-            throw new DoesntExistException("Пользователь: " + user.getId() + " " + user.getEmail() + " не сущестует");
+        boolean exists = users.containsKey(user.getId());
+        if (!exists) {
+            throw new DoesntExistException(
+                    "Пользователь: " + user.getId() + " "
+                            + user.getEmail() + " не сущестует");
+        }
+        users.put(user.getId(), user);
+        return user;
     }
 
     @Override
     public Map<Integer, User> getUsers() {
         return users;
+    }
+
+    @Override
+    public void deleteUsers() {
+        users.clear();
+    }
+
+    @Override
+    public void deleteUser(int userId) {
+        boolean exists = users.containsKey(userId);
+        if (!exists) {
+            throw new DoesntExistException(
+                    "Невозможно удалить несуществующего пользователя");
+        }
+        users.remove(userId);
     }
 }

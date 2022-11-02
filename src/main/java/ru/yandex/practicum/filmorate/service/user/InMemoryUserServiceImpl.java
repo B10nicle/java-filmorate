@@ -32,7 +32,9 @@ public class InMemoryUserServiceImpl implements UserService {
         userValidator.validate(user);
 
         if (userStorage.getUsers().get(user.getId()) != null)
-            throw new AlreadyAddedException("Пользователь: " + user.getId() + " " + user.getEmail() + " уже добавлен");
+            throw new AlreadyAddedException(
+                    "Пользователь: " + user.getId() + " "
+                            + user.getEmail() + " уже добавлен");
 
         return userStorage.addUser(user);
     }
@@ -42,7 +44,9 @@ public class InMemoryUserServiceImpl implements UserService {
         userValidator.validate(user);
 
         if (userStorage.getUsers().get(user.getId()) == null)
-            throw new DoesntExistException("Пользователь: " + user.getId() + " " + user.getEmail() + " не сущестует");
+            throw new DoesntExistException(
+                    "Пользователь: " + user.getId() + " "
+                            + user.getEmail() + " не сущестует");
 
         return userStorage.updateUser(user);
     }
@@ -50,5 +54,15 @@ public class InMemoryUserServiceImpl implements UserService {
     @Override
     public Map<Integer, User> getUsers() {
         return userStorage.getUsers();
+    }
+
+    @Override
+    public void deleteUsers() {
+        userStorage.deleteUsers();
+    }
+
+    @Override
+    public void deleteUser(int userId) {
+        userStorage.deleteUser(userId);
     }
 }

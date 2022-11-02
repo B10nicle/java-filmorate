@@ -29,15 +29,32 @@ public class InMemoryFilmStorageImpl implements FilmStorage {
 
     @Override
     public Film updateFilm(Film film) {
-        if (films.containsKey(film.getId())) {
-            films.put(film.getId(), film);
-            return film;
-        } else
-            throw new DoesntExistException("Фильм: " + film.getDescription() + " не сущестует");
+        boolean exists = films.containsKey(film.getId());
+        if (!exists) {
+            throw new DoesntExistException(
+                    "Фильм: " + film.getDescription() + " не сущестует");
+        }
+        films.put(film.getId(), film);
+        return film;
     }
 
     @Override
     public Map<Integer, Film> getFilms() {
         return films;
+    }
+
+    @Override
+    public void deleteFilms() {
+        films.clear();
+    }
+
+    @Override
+    public void deleteFilm(int filmId) {
+        boolean exists = films.containsKey(filmId);
+        if (!exists) {
+            throw new DoesntExistException(
+                    "Невозможно удалить несуществующий фильм");
+        }
+        films.remove(filmId);
     }
 }
