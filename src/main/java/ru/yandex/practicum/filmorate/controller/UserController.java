@@ -1,13 +1,11 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import io.swagger.annotations.ApiOperation;
-import ru.yandex.practicum.filmorate.entity.Film;
-import ru.yandex.practicum.filmorate.service.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import ru.yandex.practicum.filmorate.service.ServiceAbs;
 import ru.yandex.practicum.filmorate.entity.User;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -22,25 +20,24 @@ import java.util.List;
 @RequestMapping("/users")
 @Tag(name = "user-controller", description = "User Service API")
 public class UserController {
-    private final UserService userService;
+    private final ServiceAbs<User> service;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(ServiceAbs<User> service) {
+        this.service = service;
     }
 
     @GetMapping
     @ApiOperation("Get all users")
     public List<User> getUsers() {
-        log.debug("List of all users: " + userService.getUsers().values());
-        return new ArrayList<>(userService.getUsers().values());
+        log.debug("List of all users: " + service.getAll());
+        return new ArrayList<>(service.getAll());
     }
 
     @GetMapping("/{id}")
     @ApiOperation("Get user by ID")
-    public User getUser(@PathVariable("id") int userId) {
-        log.debug("Request to get user: ID {}", userId);
-        return userService.getUser(userId);
+    public User getUser(@PathVariable("id") int id) {
+        log.debug("Request to get user: ID {}", id);
+        return service.getById(id);
     }
 
     @PostMapping
@@ -48,14 +45,14 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public User createUser(@RequestBody User user) {
         log.debug("Request to create user: {}", user.getEmail());
-        return userService.addUser(user);
+        return service.add(user);
     }
 
     @PutMapping
     @ApiOperation("Update user")
     public User updateUser(@RequestBody User user) {
         log.debug("Request to update user: {}", user.getEmail());
-        return userService.updateUser(user);
+        return service.update(user);
     }
 
     @DeleteMapping
@@ -63,14 +60,14 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUsers() {
         log.debug("Request to delete all users");
-        userService.deleteUsers();
+        service.deleteAll();
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation("Delete user by ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable("id") int userId) {
-        log.debug("Request to delete user: ID {}", userId);
-        userService.deleteUser(userId);
+    public void deleteUser(@PathVariable("id") int id) {
+        log.debug("Request to delete user: ID {}", id);
+        service.getById(id);
     }
 }

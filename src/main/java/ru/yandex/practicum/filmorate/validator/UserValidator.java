@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.validator.user;
+package ru.yandex.practicum.filmorate.validator;
 
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.entity.User;
@@ -12,9 +12,8 @@ import java.time.LocalDate;
  */
 
 @Component
-public class UserValidatorImpl implements UserValidator {
+public class UserValidator implements Validator<User> {
 
-    @Override
     public void validate(@NotNull User user) throws ValidationException {
 
         if (user.getEmail() == null

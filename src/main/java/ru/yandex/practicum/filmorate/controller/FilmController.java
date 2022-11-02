@@ -1,12 +1,11 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import io.swagger.annotations.ApiOperation;
-import ru.yandex.practicum.filmorate.service.film.FilmService;
-import org.springframework.beans.factory.annotation.Autowired;
+import ru.yandex.practicum.filmorate.service.ServiceAbs;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -21,25 +20,24 @@ import java.util.List;
 @RequestMapping("/films")
 @Tag(name = "film-controller", description = "Film Service API")
 public class FilmController {
-    private final FilmService filmService;
+    private final ServiceAbs<Film> service;
 
-    @Autowired
-    public FilmController(FilmService filmService) {
-        this.filmService = filmService;
+    public FilmController(ServiceAbs<Film> service) {
+        this.service = service;
     }
 
     @GetMapping
     @ApiOperation("Get all films")
     public List<Film> getFilms() {
-        log.debug("List of all films: " + filmService.getFilms().values());
-        return new ArrayList<>(filmService.getFilms().values());
+        log.debug("List of all films: " + service.getAll());
+        return new ArrayList<>(service.getAll());
     }
 
     @GetMapping("/{id}")
     @ApiOperation("Get film by ID")
-    public Film getFilm(@PathVariable("id") int filmId) {
-        log.debug("Request to get film: ID {}", filmId);
-        return filmService.getFilm(filmId);
+    public Film getFilm(@PathVariable("id") int id) {
+        log.debug("Request to get film: ID {}", id);
+        return service.getById(id);
     }
 
     @PostMapping
@@ -47,14 +45,14 @@ public class FilmController {
     @ResponseStatus(HttpStatus.CREATED)
     public Film createFilm(@RequestBody Film film) {
         log.debug("Request to create film: {}", film);
-        return filmService.addFilm(film);
+        return service.add(film);
     }
 
     @PutMapping
     @ApiOperation("Update film")
     public Film updateFilm(@RequestBody Film film) {
         log.debug("Request to update film: {}", film);
-        return filmService.updateFilm(film);
+        return service.update(film);
     }
 
     @DeleteMapping
@@ -62,14 +60,14 @@ public class FilmController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFilms() {
         log.debug("Request to delete all films");
-        filmService.deleteFilms();
+        service.deleteAll();
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation("Delete film by ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteFilm(@PathVariable("id") int filmId) {
-        log.debug("Request to delete film: ID {}", filmId);
-        filmService.deleteFilm(filmId);
+    public void deleteFilm(@PathVariable("id") int id) {
+        log.debug("Request to delete film: ID {}", id);
+        service.deleteById(id);
     }
 }

@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.storage.user;
+package ru.yandex.practicum.filmorate.storage;
 
 import ru.yandex.practicum.filmorate.entity.User;
 import org.springframework.stereotype.Component;
@@ -11,44 +11,44 @@ import java.util.Map;
  */
 
 @Component
-public class InMemoryUserStorageImpl implements UserStorage {
+public class UserStorage extends Storage<User> {
     private final Map<Integer, User> users;
     private int id;
 
-    public InMemoryUserStorageImpl() {
+    public UserStorage() {
         this.users = new HashMap<>();
     }
 
     @Override
-    public User addUser(User user) {
+    public User add(User user) {
         user.setId(++id);
         users.put(user.getId(), user);
         return user;
     }
 
     @Override
-    public User updateUser(User user) {
+    public User update(User user) {
         users.put(user.getId(), user);
         return user;
     }
 
     @Override
-    public Map<Integer, User> getUsers() {
+    public Map<Integer, User> getAll() {
         return users;
     }
 
     @Override
-    public User getUser(int userId) {
-        return users.get(userId);
+    public User getById(int id) {
+        return users.get(id);
     }
 
     @Override
-    public void deleteUsers() {
+    public void deleteAll() {
         users.clear();
     }
 
     @Override
-    public void deleteUser(int userId) {
-        users.remove(userId);
+    public void deleteById(int id) {
+        users.remove(id);
     }
 }

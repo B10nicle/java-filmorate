@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.validator.film;
+package ru.yandex.practicum.filmorate.validator;
 
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.entity.Film;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
  */
 
 @Component
-public class FilmValidatorImpl implements FilmValidator {
+public class FilmValidator implements Validator<Film> {
 
     @Override
     public void validate(@NotNull Film film) throws ValidationException {
