@@ -29,23 +29,28 @@ public class InMemoryFilmServiceImpl implements FilmService {
 
     @Override
     public Film addFilm(Film film) throws ValidationException {
+        boolean exists = filmStorage.getFilms().containsKey(film.getId());
+        boolean isEmpty = filmStorage.getFilms().isEmpty();
         filmValidator.validate(film);
 
-        if (filmStorage.getFilms() == null
-                || filmStorage.getFilms().get(film.getId()) == null)
+        if (isEmpty)
             return filmStorage.addFilm(film);
-        else
+
+        if (!exists)
             throw new AlreadyAddedException(
                     "Фильм: " + film.getDescription() + " уже добавлен");
+
+        return filmStorage.addFilm(film);
     }
 
     @Override
     public Film updateFilm(Film film) throws ValidationException {
+        boolean exists = filmStorage.getFilms().containsKey(film.getId());
         filmValidator.validate(film);
 
-        if (filmStorage.getFilms().get(film.getId()) == null)
+        if (!exists)
             throw new DoesntExistException(
-                    "Фильм: " + film.getDescription() + " не сущестует");
+                    "Фильм: " + film.getDescription() + " не существует");
 
         return filmStorage.updateFilm(film);
     }
@@ -57,16 +62,34 @@ public class InMemoryFilmServiceImpl implements FilmService {
 
     @Override
     public Film getFilm(int filmId) {
+        boolean exists = filmStorage.getFilms().containsKey(filmId);
+
+        if (!exists)
+            throw new DoesntExistException(
+                    "Невозможно получить несуществующий фильм");
+
         return filmStorage.getFilm(filmId);
     }
 
     @Override
     public void deleteFilms() {
+        boolean isEmpty = filmStorage.getFilms().isEmpty();
+
+        if (isEmpty)
+            throw new DoesntExistException(
+                    "Невозможно удалить несуществующие фильмы");
+
         filmStorage.deleteFilms();
     }
 
     @Override
     public void deleteFilm(int filmId) {
+        boolean exists = filmStorage.getFilms().containsKey(filmId);
+
+        if (!exists)
+            throw new DoesntExistException(
+                    "Невозможно удалить несуществующий фильм");
+
         filmStorage.deleteFilm(filmId);
     }
 }

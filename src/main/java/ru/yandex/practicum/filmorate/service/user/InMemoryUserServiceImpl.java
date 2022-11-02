@@ -29,9 +29,14 @@ public class InMemoryUserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user) throws ValidationException {
+        boolean exists = userStorage.getUsers().containsKey(user.getId());
+        boolean isEmpty = userStorage.getUsers().isEmpty();
         userValidator.validate(user);
 
-        if (userStorage.getUsers().get(user.getId()) != null)
+        if (isEmpty)
+            return userStorage.addUser(user);
+
+        if (exists)
             throw new AlreadyAddedException(
                     "Пользователь: " + user.getId() + " "
                             + user.getEmail() + " уже добавлен");
@@ -41,9 +46,10 @@ public class InMemoryUserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) throws ValidationException {
+        boolean exists = userStorage.getUsers().containsKey(user.getId());
         userValidator.validate(user);
 
-        if (userStorage.getUsers().get(user.getId()) == null)
+        if (!exists)
             throw new DoesntExistException(
                     "Пользователь: " + user.getId() + " "
                             + user.getEmail() + " не сущестует");
@@ -58,16 +64,34 @@ public class InMemoryUserServiceImpl implements UserService {
 
     @Override
     public User getUser(int userId) {
+        boolean exists = userStorage.getUsers().containsKey(userId);
+
+        if (!exists)
+            throw new DoesntExistException(
+                    "Невозможно получить несуществующего пользователя");
+
         return userStorage.getUser(userId);
     }
 
     @Override
     public void deleteUsers() {
+        boolean isEmpty = userStorage.getUsers().isEmpty();
+
+        if (isEmpty)
+            throw new DoesntExistException(
+                    "Невозможно удалить несуществующих пользователей");
+
         userStorage.deleteUsers();
     }
 
     @Override
     public void deleteUser(int userId) {
+        boolean exists = userStorage.getUsers().containsKey(userId);
+
+        if (!exists)
+            throw new DoesntExistException(
+                    "Невозможно удалить несуществующего пользователя");
+
         userStorage.deleteUser(userId);
     }
 }

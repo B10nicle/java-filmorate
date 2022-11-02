@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
-import ru.yandex.practicum.filmorate.exception.DoesntExistException;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.springframework.stereotype.Component;
 
@@ -29,11 +28,6 @@ public class InMemoryFilmStorageImpl implements FilmStorage {
 
     @Override
     public Film updateFilm(Film film) {
-        boolean exists = films.containsKey(film.getId());
-        if (!exists) {
-            throw new DoesntExistException(
-                    "Фильм: " + film.getDescription() + " не сущестует");
-        }
         films.put(film.getId(), film);
         return film;
     }
@@ -55,11 +49,6 @@ public class InMemoryFilmStorageImpl implements FilmStorage {
 
     @Override
     public void deleteFilm(int filmId) {
-        boolean exists = films.containsKey(filmId);
-        if (!exists) {
-            throw new DoesntExistException(
-                    "Невозможно удалить несуществующий фильм");
-        }
         films.remove(filmId);
     }
 }
