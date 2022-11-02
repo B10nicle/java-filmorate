@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +44,14 @@ public class UserController {
     @PostMapping
     @ApiOperation("Create user")
     @ResponseStatus(HttpStatus.CREATED)
-    public User createUser(@RequestBody User user) {
+    public User createUser(@Valid @RequestBody User user) {
         log.debug("Request to create user: {}", user.getEmail());
         return service.add(user);
     }
 
     @PutMapping
     @ApiOperation("Update user")
-    public User updateUser(@RequestBody User user) {
+    public User updateUser(@Valid @RequestBody User user) {
         log.debug("Request to update user: {}", user.getEmail());
         return service.update(user);
     }

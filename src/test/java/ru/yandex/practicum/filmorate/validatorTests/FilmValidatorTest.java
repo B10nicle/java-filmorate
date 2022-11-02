@@ -32,55 +32,13 @@ class FilmValidatorTest {
     }
 
     @Test
-    void nullNameValidationTest() {
-        film.setName(null);
-        assertThrows(ValidationException.class, () -> validator.validate(film));
-    }
-
-    @Test
-    void moreThan200symbolsDescriptionValidationTest() {
-        film.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem " +
-                "Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer " +
-                "took a galley of type and scrambled it to make a type specimen book. It has survived not only " +
-                "five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " +
-                "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum " +
-                "passages, and more recently with desktop publishing software like Aldus PageMaker including " +
-                "versions of Lorem Ipsum.");
-        assertThrows(ValidationException.class, () -> validator.validate(film));
-    }
-
-    @Test
-    void spaceNameValidationTest() {
-        film.setName(" ");
-        assertThrows(ValidationException.class, () -> validator.validate(film));
-    }
-
-    @Test
-    void filmDurationValidationTest() {
-        film.setDuration(-1);
-        assertThrows(ValidationException.class, () -> validator.validate(film));
-    }
-
-    @Test
-    void releaseDateValidationTest() {
-        film.setReleaseDate(LocalDate.of(1111, 1, 1));
-        assertThrows(ValidationException.class, () -> validator.validate(film));
-    }
-
-    @Test
-    void nullDescriptionValidationTest() {
-        film.setDescription(null);
-        assertThrows(ValidationException.class, () -> validator.validate(film));
-    }
-
-    @Test
     void filmValidationTest() {
         assertDoesNotThrow(() -> validator.validate(film));
     }
 
     @Test
-    void spaceDescriptionValidationTest() {
-        film.setDescription(" ");
+    void releaseDateValidationTest() {
+        film.setReleaseDate(LocalDate.of(1111, 1, 1));
         assertThrows(ValidationException.class, () -> validator.validate(film));
     }
 }

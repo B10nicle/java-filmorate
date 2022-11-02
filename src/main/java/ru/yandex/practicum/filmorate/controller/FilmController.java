@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +44,14 @@ public class FilmController {
     @PostMapping
     @ApiOperation("Create film")
     @ResponseStatus(HttpStatus.CREATED)
-    public Film createFilm(@RequestBody Film film) {
+    public Film createFilm(@Valid @RequestBody Film film) {
         log.debug("Request to create film: {}", film);
         return service.add(film);
     }
 
     @PutMapping
     @ApiOperation("Update film")
-    public Film updateFilm(@RequestBody Film film) {
+    public Film updateFilm(@Valid @RequestBody Film film) {
         log.debug("Request to update film: {}", film);
         return service.update(film);
     }
