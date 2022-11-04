@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Service
-public class UserService extends ServiceAbs<User> {
+public class UserService extends Services<User> {
     private final Validator<User> validator;
     private final Storage<User> storage;
 
@@ -61,7 +61,7 @@ public class UserService extends ServiceAbs<User> {
     }
 
     @Override
-    public User getById(int id) {
+    public User getById(Long id) {
         boolean exists = storage.getAll().containsKey(id);
 
         if (!exists)
@@ -83,7 +83,7 @@ public class UserService extends ServiceAbs<User> {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         boolean exists = storage.getAll().containsKey(id);
 
         if (!exists)

@@ -12,8 +12,8 @@ import java.util.Map;
 
 @Component
 public class FilmStorage extends Storage<Film> {
-    private final Map<Integer, Film> films;
-    private int id;
+    private final Map<Long, Film> films;
+    private Long id;
 
     public FilmStorage() {
         this.films = new HashMap<>();
@@ -33,12 +33,12 @@ public class FilmStorage extends Storage<Film> {
     }
 
     @Override
-    public Map<Integer, Film> getAll() {
+    public Map<Long, Film> getAll() {
         return films;
     }
 
     @Override
-    public Film getById(int id) {
+    public Film getById(Long id) {
         return films.get(id);
     }
 
@@ -48,7 +48,7 @@ public class FilmStorage extends Storage<Film> {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         films.remove(id);
     }
 }

@@ -2,7 +2,10 @@ package ru.yandex.practicum.filmorate.entity;
 
 import lombok.Data;
 
+import javax.persistence.GeneratedValue;
 import javax.validation.constraints.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
 /**
@@ -10,8 +13,12 @@ import java.time.LocalDate;
  */
 
 @Data
+@Entity
 public class Film {
-    private int id;
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     @NotBlank
     private String name;
@@ -25,4 +32,17 @@ public class Film {
 
     @NotNull
     private LocalDate releaseDate;
+
+    public Film() {
+    }
+
+    public Film(String name,
+                String description,
+                int duration,
+                LocalDate releaseDate) {
+        this.description = description;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
+        this.name = name;
+    }
 }

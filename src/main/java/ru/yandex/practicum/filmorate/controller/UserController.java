@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import ru.yandex.practicum.filmorate.service.ServiceAbs;
+import ru.yandex.practicum.filmorate.service.Services;
 import ru.yandex.practicum.filmorate.entity.User;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,8 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Oleg Khilko
@@ -21,22 +19,22 @@ import java.util.List;
 @RequestMapping("/users")
 @Tag(name = "user-controller", description = "User Service API")
 public class UserController {
-    private final ServiceAbs<User> service;
+    private final Services<User> service;
 
-    public UserController(ServiceAbs<User> service) {
+    public UserController(Services<User> service) {
         this.service = service;
     }
 
-    @GetMapping
+/*    @GetMapping
     @ApiOperation("Get all users")
     public List<User> getUsers() {
         log.debug("List of all users: " + service.getAll());
         return new ArrayList<>(service.getAll());
-    }
+    }*/
 
     @GetMapping("/{id}")
     @ApiOperation("Get user by ID")
-    public User getUser(@PathVariable("id") int id) {
+    public User getUser(@PathVariable("id") Long id) {
         log.debug("Request to get user: ID {}", id);
         return service.getById(id);
     }
@@ -67,7 +65,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     @ApiOperation("Delete user by ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable("id") int id) {
+    public void deleteUser(@PathVariable("id") Long id) {
         log.debug("Request to delete user: ID {}", id);
         service.getById(id);
     }

@@ -1,93 +1,78 @@
 package ru.yandex.practicum.filmorate.service;
 
-import ru.yandex.practicum.filmorate.exception.AlreadyAddedException;
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
+import ru.yandex.practicum.filmorate.repository.FilmRepository;
 import ru.yandex.practicum.filmorate.validator.Validator;
-import ru.yandex.practicum.filmorate.storage.Storage;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Oleg Khilko
  */
 
 @Service
-public class FilmService extends ServiceAbs<Film> {
+public class FilmService extends Services<Film> {
     private final Validator<Film> validator;
-    private final Storage<Film> storage;
+    private final FilmRepository repository;
 
     public FilmService(Validator<Film> validator,
-                       Storage<Film> storage) {
+                       FilmRepository repository) {
+        this.repository = repository;
         this.validator = validator;
-        this.storage = storage;
     }
 
     @Override
     public Film add(Film film) {
-        boolean exists = storage.getAll().containsKey(film.getId());
-        boolean isEmpty = storage.getAll().isEmpty();
         validator.validate(film);
-
-        if (isEmpty)
-            return storage.add(film);
-
-        if (!exists)
-            throw new AlreadyAddedException(
-                    "Фильм: " + film.getDescription() + " уже добавлен");
-
-        return storage.add(film);
+        return repository.save(film);
     }
 
     @Override
     public Film update(Film film) {
-        boolean exists = storage.getAll().containsKey(film.getId());
+        var optionalFilm = repository.findById(film.getId());
         validator.validate(film);
 
-        if (!exists)
+        if (optionalFilm.isEmpty())
             throw new DoesntExistException(
                     "Фильм: " + film.getDescription() + " не существует");
 
-        return storage.update(film);
+        return repository.save(optionalFilm.get());
     }
 
     @Override
-    public Film getById(int id) {
-        boolean exists = storage.getAll().containsKey(id);
-
-        if (!exists)
+    public Film getById(Long id) {
+        var film = repository.findById(id);
+        if (film.isEmpty())
             throw new DoesntExistException(
                     "Невозможно получить несуществующий фильм");
 
-        return storage.getById(id);
+        return film.get();
     }
 
     @Override
-    public List<Film> getAll() {
-        return new ArrayList<>(storage.getAll().values());
+    public Iterable<Film> getAll() {
+        return repository.findAll();
     }
 
     @Override
     public void deleteAll() {
-        boolean isEmpty = storage.getAll().isEmpty();
+        boolean isEmpty = repository.count() == 0;
 
         if (isEmpty)
             throw new DoesntExistException(
                     "Невозможно удалить несуществующие фильмы");
 
-        storage.deleteAll();
+        repository.deleteAll();
     }
 
     @Override
-    public void deleteById(int id) {
-        boolean exists = storage.getAll().containsKey(id);
+    public void deleteById(Long id) {
+        var film = repository.findById(id);
 
-        if (!exists)
+        if (film.isEmpty())
             throw new DoesntExistException(
                     "Невозможно удалить несуществующий фильм");
 
-        storage.deleteById(id);
+        repository.deleteById(id);
     }
 }

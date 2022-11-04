@@ -2,9 +2,10 @@ package ru.yandex.practicum.filmorate.entity;
 
 import lombok.Data;
 
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Email;
+import javax.persistence.GeneratedValue;
+import javax.validation.constraints.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
 /**
@@ -12,8 +13,12 @@ import java.time.LocalDate;
  */
 
 @Data
+@Entity
 public class User {
-    private int id;
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     private String name;
 
