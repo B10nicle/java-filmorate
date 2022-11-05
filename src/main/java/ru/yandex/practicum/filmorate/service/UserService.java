@@ -43,25 +43,7 @@ public class UserService extends Services<User> {
     }
 
     @Override
-    public User update(User user) {
-        boolean exists = storage.getAll().containsKey(user.getId());
-        validator.validate(user);
-
-        if (!exists)
-            throw new DoesntExistException(
-                    "Пользователь: " + user.getId() + " "
-                            + user.getEmail() + " не сущестует");
-
-        return storage.update(user);
-    }
-
-    @Override
-    public List<User> getAll() {
-        return new ArrayList<>(storage.getAll().values());
-    }
-
-    @Override
-    public User getById(Long id) {
+    public User get(Long id) {
         boolean exists = storage.getAll().containsKey(id);
 
         if (!exists)
@@ -72,18 +54,7 @@ public class UserService extends Services<User> {
     }
 
     @Override
-    public void deleteAll() {
-        boolean isEmpty = storage.getAll().isEmpty();
-
-        if (isEmpty)
-            throw new DoesntExistException(
-                    "Невозможно удалить несуществующих пользователей");
-
-        storage.deleteAll();
-    }
-
-    @Override
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         boolean exists = storage.getAll().containsKey(id);
 
         if (!exists)
@@ -91,5 +62,10 @@ public class UserService extends Services<User> {
                     "Невозможно удалить несуществующего пользователя");
 
         storage.deleteById(id);
+    }
+
+    @Override
+    public List<User> search(String keyword) {
+        return null;
     }
 }

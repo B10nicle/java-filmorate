@@ -27,12 +27,6 @@ public class UserStorage extends Storage<User> {
     }
 
     @Override
-    public User update(User user) {
-        users.put(user.getId(), user);
-        return user;
-    }
-
-    @Override
     public Map<Long, User> getAll() {
         return users;
     }
@@ -40,11 +34,6 @@ public class UserStorage extends Storage<User> {
     @Override
     public User getById(Long id) {
         return users.get(id);
-    }
-
-    @Override
-    public void deleteAll() {
-        users.clear();
     }
 
     @Override

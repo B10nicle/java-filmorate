@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HomeController {
 
     @GetMapping("/home")
-    public String addFilm() {
+    public String home() {
         return "home";
     }
 }

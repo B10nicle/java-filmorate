@@ -7,34 +7,48 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/normalize.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
     <link rel="shortcut icon" th:href="@{/images/icon.ico}"/>
-    <title>FilmoRate</title>
+    <title>FilmoRate | Homepage</title>
 </head>
 <body>
 <div class="page">
-    <header class="header">
-        <a class="logo" href="/"
-        ><img
-                class="logo__filmorate"
-                src="/images/logo_filmorate.png"
-                alt="Логотип ФильмоРейт"
-        /></a>
-        <div class="heading">
-            <h1 class="title">FilmoRate</h1>
-            <h2 class="subtitle">Interactive panel for films selection</h2>
+    <header>
+        <div class="header">
+            <a class="logo" href="/home"
+            ><img
+                    class="logo__filmorate"
+                    src="/images/logo_filmorate.png"
+                    alt="Логотип ФильмоРейт"
+            /></a>
+            <div class="heading">
+                <h1 class="title"><a class="title" href="/home">FilmoRate</a></h1>
+                <h2 class="subtitle">Interactive panel for films selection</h2>
+            </div>
+            <form
+                    class="search-box"
+                    name="search"
+                    th:action="@{/films}"
+                    method="get"
+            >
+                <label for="search-input"></label>
+                <input id="search-input" type="text" name="keyword"/>
+                <button type="submit">Search</button>
+            </form>
         </div>
-        <div class="buttons">
-            <a class="button" href="/films">Films</a>
-            <a class="button" href="/films/get-by-id">Get by ID</a>
-            <a class="button" href="/films/add">Add film</a>
-            <a class="button" href="/films/update">Update film</a>
-            <a class="button" th:onclick="deleteById()" href="/films/delete">Delete films</a>
-            <a class="button" href="/films/delete-by-id">Delete by ID</a>
-            <a class="button" href="/home">Home</a>
-        </div>
+        <nav class="buttons-box">
+            <div class="buttons">
+                <a class="button" href="/films/add-film">Add film</a>
+                <a class="button" href="/users/add-user">Add user</a>
+                <a class="button" href="/films">Films</a>
+                <a class="button" href="/users">Users</a>
+                <a class="button" href="/home">Home</a>
+            </div>
+        </nav>
     </header>
-
-    <main class="content">
-        <h1>Welcome to the interactive panel!</h1>
+    <main class="content-homepage">
+        <div class="heading">
+            <h1 class="title">Welcome to the FilmoRate!</h1>
+            <h2 class="subtitle">The best film adviser in the world.</h2>
+        </div>
     </main>
     <footer class="footer">
         <div class="links">

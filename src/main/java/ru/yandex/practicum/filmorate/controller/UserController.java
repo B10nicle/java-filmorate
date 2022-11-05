@@ -25,18 +25,11 @@ public class UserController {
         this.service = service;
     }
 
-/*    @GetMapping
-    @ApiOperation("Get all users")
-    public List<User> getUsers() {
-        log.debug("List of all users: " + service.getAll());
-        return new ArrayList<>(service.getAll());
-    }*/
-
     @GetMapping("/{id}")
     @ApiOperation("Get user by ID")
     public User getUser(@PathVariable("id") Long id) {
         log.debug("Request to get user: ID {}", id);
-        return service.getById(id);
+        return service.get(id);
     }
 
     @PostMapping
@@ -47,26 +40,11 @@ public class UserController {
         return service.add(user);
     }
 
-    @PutMapping
-    @ApiOperation("Update user")
-    public User updateUser(@Valid @RequestBody User user) {
-        log.debug("Request to update user: {}", user.getEmail());
-        return service.update(user);
-    }
-
-    @DeleteMapping
-    @ApiOperation("Delete all users")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUsers() {
-        log.debug("Request to delete all users");
-        service.deleteAll();
-    }
-
     @DeleteMapping("/{id}")
     @ApiOperation("Delete user by ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable("id") Long id) {
         log.debug("Request to delete user: ID {}", id);
-        service.getById(id);
+        service.get(id);
     }
 }

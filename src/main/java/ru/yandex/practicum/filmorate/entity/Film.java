@@ -35,14 +35,4 @@ public class Film {
 
     public Film() {
     }
-
-    public Film(String name,
-                String description,
-                int duration,
-                LocalDate releaseDate) {
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.duration = duration;
-        this.name = name;
-    }
 }

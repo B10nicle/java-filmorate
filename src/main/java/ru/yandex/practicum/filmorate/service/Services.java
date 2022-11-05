@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
+import java.util.List;
+
 /**
  * @author Oleg Khilko
  */
@@ -8,14 +10,10 @@ public abstract class Services<T> {
 
     public abstract T add(T t);
 
-    public abstract T update(T t);
+    public abstract T get(Long id);
 
-    public abstract Iterable<T> getAll();
+    public abstract void delete(Long id);
 
-    public abstract T getById(Long id);
-
-    public abstract void deleteAll();
-
-    public abstract void deleteById(Long id);
+    public abstract List<T> search(String keyword);
 
 }

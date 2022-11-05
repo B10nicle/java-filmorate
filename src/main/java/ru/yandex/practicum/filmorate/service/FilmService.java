@@ -6,6 +6,8 @@ import ru.yandex.practicum.filmorate.validator.Validator;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Oleg Khilko
  */
@@ -28,19 +30,7 @@ public class FilmService extends Services<Film> {
     }
 
     @Override
-    public Film update(Film film) {
-        var optionalFilm = repository.findById(film.getId());
-        validator.validate(film);
-
-        if (optionalFilm.isEmpty())
-            throw new DoesntExistException(
-                    "Фильм: " + film.getDescription() + " не существует");
-
-        return repository.save(optionalFilm.get());
-    }
-
-    @Override
-    public Film getById(Long id) {
+    public Film get(Long id) {
         var film = repository.findById(id);
         if (film.isEmpty())
             throw new DoesntExistException(
@@ -50,23 +40,15 @@ public class FilmService extends Services<Film> {
     }
 
     @Override
-    public Iterable<Film> getAll() {
+    public List<Film> search(String keyword) {
+        if (keyword != null)
+            return repository.search(keyword);
+
         return repository.findAll();
     }
 
     @Override
-    public void deleteAll() {
-        boolean isEmpty = repository.count() == 0;
-
-        if (isEmpty)
-            throw new DoesntExistException(
-                    "Невозможно удалить несуществующие фильмы");
-
-        repository.deleteAll();
-    }
-
-    @Override
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         var film = repository.findById(id);
 
         if (film.isEmpty())

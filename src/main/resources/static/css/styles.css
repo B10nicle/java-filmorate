@@ -1,151 +1,192 @@
 .page {
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  max-width: 1000px;
-  min-width: 600px;
-  margin: 0 auto;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    max-width: 1200px;
+    min-width: 800px;
+    margin: 0 auto;
 }
 
 .header {
-  justify-content: space-between;
-  background-color: #dcdcdc;
-  margin: 150px auto 0;
-  display: flex;
+    background-color: #dcdcdc;
+    justify-content: center;
+    position: relative;
+    height: 120px;
+    display: flex;
 }
 
 .logo {
-  margin: 20px 0 20px 20px;
-  display: flex;
-  height: 80px;
-  width: 80px;
+    position: absolute;
+    display: flex;
+    margin: 20px;
+    height: 80px;
+    width: 80px;
+    left: 0;
 }
 
 .heading {
-  justify-content: center;
-  flex-direction: column;
-  align-self: center;
-  display: flex;
+    flex-direction: column;
+    align-self: center;
+    display: flex;
+}
+
+.content {
+    background-color: #a3c6c0;
+    min-height: 773px;
+}
+
+.content-homepage {
+    background-color: #a3c6c0;
+    justify-content: center;
+    min-height: 793px;
+    display: flex;
 }
 
 .title {
-  margin: 0 auto 10px;
-  font-weight: 600;
-  font-size: 36px;
+    text-decoration: none;
+    margin: 0 auto 10px;
+    font-weight: 600;
+    color: #000000;
+    font-size: 36px;
 }
 
 .subtitle {
-  font-weight: 400;
-  font-size: 20px;
-  margin: 0 auto;
+    font-weight: 400;
+    font-size: 20px;
+    margin: 0 auto;
+}
+
+.search-box {
+    position: absolute;
+    bottom: 35px;
+    right: 50px;
 }
 
 .buttons {
-  justify-content: space-evenly;
-  align-content: space-between;
-  flex-direction: column;
-  margin-right: 20px;
-  align-self: center;
-  flex-wrap: wrap;
-  display: flex;
-  height: 100px;
-  width: 300px;
-  gap: 8px;
+    background-color: #dcdcdc;
+    justify-content: center;
+    display: flex;
 }
 
 .button {
-  justify-content: center;
-  text-decoration: none;
-  align-items: center;
-  font-weight: 400;
-  font-size: 20px;
-  color: #ffffff;
-  margin: 0 auto;
-  display: flex;
-  height: 30px;
-  width: 90px;
+    justify-content: center;
+    text-decoration: none;
+    align-items: center;
+    font-weight: 400;
+    font-size: 20px;
+    color: #ffffff;
+    display: flex;
+    height: 30px;
+    width: 90px;
 }
 
 .button:nth-child(1) {
-  background-color: #daa520;
+    background-color: #daa520;
 }
 
 .button:nth-child(2) {
-  background-color: #008000;
+    background-color: #b22222;
 }
 
 .button:nth-child(3) {
-  background-color: #b22222;
+    background-color: #008000;
 }
 
 .button:nth-child(4) {
-  background-color: #483d8b;
+    background-color: #483d8b;
 }
 
 .button:nth-child(5) {
-  background-color: #8b008b;
+    background-color: #8b008b;
 }
 
 .button:hover {
-  color: #000000;
-}
-
-.table {
-  justify-content: space-around;
-  grid-auto-columns: auto;
-  display: grid;
+    color: #000000;
+    cursor: pointer;
 }
 
 .footer {
-  background-color: #dcdcdc;
-  justify-content: end;
-  display: flex;
+    background-color: #dcdcdc;
+    justify-content: end;
+    display: flex;
 }
 
 .links {
-  flex-direction: row-reverse;
-  justify-content: center;
-  margin-top: 5px;
-  display: flex;
-  width: 130px;
-  height: 30px;
+    flex-direction: row-reverse;
+    justify-content: center;
+    margin-top: 5px;
+    display: flex;
+    width: 130px;
+    height: 30px;
 }
 
 .github {
-  align-self: center;
+    align-self: center;
 }
 
 .logo__github {
-  height: 30px;
-  width: 30px;
+    height: 30px;
+    width: 30px;
 }
 
 .author {
-  text-decoration: none;
-  align-self: center;
-  font-size: 18px;
-  color: #000000;
+    text-decoration: none;
+    align-self: center;
+    font-size: 18px;
+    color: #000000;
 }
 
 .author:hover {
-  color: #8a2be2;
+    color: #8a2be2;
 }
 
 .film-adding-form {
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
-  display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    display: flex;
 }
 
 .film-information {
-  margin: 20px 0 0 0;
-  font-size: 20px;
+    margin: 20px 0 0 0;
+    font-size: 20px;
 }
 
 .add-form {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  width: 600px;
+    flex-direction: column;
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.form-buttons {
+    margin: 20px;
+}
+
+.table-content {
+    justify-content: center;
+    padding: 20px;
+    display: flex;
+}
+
+.thead {
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 18px;
+    height: 40px;
+    width: 80px;
+    justify-content: center;
+}
+
+.tbody {
+    font-size: 18px;
+    height: 24px;
+}
+
+.tbody:nth-of-type(2n) {
+    background-color: #dcdcdc;
+}
+
+.edit-delete {
+    display: flex;
+    width: 150px;
 }

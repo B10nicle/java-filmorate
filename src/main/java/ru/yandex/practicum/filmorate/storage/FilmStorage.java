@@ -27,12 +27,6 @@ public class FilmStorage extends Storage<Film> {
     }
 
     @Override
-    public Film update(Film film) {
-        films.put(film.getId(), film);
-        return film;
-    }
-
-    @Override
     public Map<Long, Film> getAll() {
         return films;
     }
@@ -40,11 +34,6 @@ public class FilmStorage extends Storage<Film> {
     @Override
     public Film getById(Long id) {
         return films.get(id);
-    }
-
-    @Override
-    public void deleteAll() {
-        films.clear();
     }
 
     @Override

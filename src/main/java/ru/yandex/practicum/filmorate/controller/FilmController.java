@@ -1,6 +1,8 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import org.springframework.data.repository.query.Param;
 import ru.yandex.practicum.filmorate.service.Services;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.stereotype.Controller;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +12,6 @@ import org.springframework.ui.Model;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 
 /**
  * @author Oleg Khilko
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 
 @Slf4j
 @Controller
+@RequestMapping("/films")
 @Tag(name = "film-controller", description = "Film Service API")
 public class FilmController {
     private final Services<Film> service;
@@ -26,64 +28,52 @@ public class FilmController {
         this.service = service;
     }
 
-    @GetMapping("/films")
+    @GetMapping()
     @ApiOperation("Show all films")
-    public String getFilms(Model model) {
-        var films = service.getAll();
+    public String getFilms(Model model, @Param("keyword") String keyword) {
+        var films = service.search(keyword);
+
+        if (films.isEmpty())
+            return "search-error";
+
         model.addAttribute("films", films);
+        model.addAttribute("keyword", keyword);
         log.debug("List of all films: " + films);
+
         return "films";
     }
 
-    @GetMapping("films/add")
+    @GetMapping("/add-film")
     @ApiOperation("Show form to add a new film")
-    public String showFormToAddFilm() {
-        return "add-film-form";
+    public String showAddForm(Model model) {
+        var film = new Film();
+        log.debug("Request to show add form for film: {}", film);
+        model.addAttribute("film", film);
+        return "add-film";
     }
 
-    @PostMapping("films/add")
+    @PostMapping("/add")
     @ApiOperation("Add film")
-    public String addFilm(@Valid
-                          @RequestParam String description,
-                          @RequestParam LocalDate date,
-                          @RequestParam int duration,
-                          @RequestParam String name) {
-        var film = new Film(name, description, duration, date);
+    public String addFilm(@Valid @ModelAttribute("film") Film film) {
         log.debug("Request to create film: {}", film);
         service.add(film);
         return "redirect:/films";
     }
 
-    @GetMapping("films/{id}")
-    @ApiOperation("Get film by ID")
-    public String getFilmById(@PathVariable("id") Long id, Model model) {
-        var film = service.getById(id);
-        model.addAttribute("film", film);
-        log.debug("Request to get film: ID {}", id);
-        return "film";
+    @GetMapping("/edit/{id}")
+    @ApiOperation("Edit film by ID")
+    public ModelAndView showEditFilmPage(@PathVariable("id") Long id) {
+        var editView = new ModelAndView("edit-film");
+        var film = service.get(id);
+        editView.addObject("film", film);
+        return editView;
     }
 
-    @PutMapping
-    @ApiOperation("Update film")
-    public Film updateFilm(@Valid @RequestBody Film film) {
-        log.debug("Request to update film: {}", film);
-        return service.update(film);
-    }
-
-    @DeleteMapping("/films")
-    @ApiOperation("Delete all films")
-    public String deleteFilms(Model model) {
-        log.debug("Request to delete all films");
-        service.deleteAll();
-        var films = service.getAll();
-        model.addAttribute("films", films);
-        return "delete-films";
-    }
-
-    @DeleteMapping("/{id}")
+    @GetMapping("/delete/{id}")
     @ApiOperation("Delete film by ID")
-    public void deleteFilm(@PathVariable("id") Long id) {
+    public String deleteFilm(@PathVariable("id") Long id) {
         log.debug("Request to delete film: ID {}", id);
-        service.deleteById(id);
+        service.delete(id);
+        return "redirect:/films";
     }
 }
