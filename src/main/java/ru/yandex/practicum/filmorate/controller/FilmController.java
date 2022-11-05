@@ -60,17 +60,25 @@ public class FilmController {
         return "redirect:/films";
     }
 
-    @GetMapping("/edit/{id}")
-    @ApiOperation("Edit film by ID")
-    public ModelAndView showEditFilmPage(@PathVariable("id") Long id) {
+    @GetMapping("/{id}/edit")
+    @ApiOperation("Show form to edit a film")
+    public ModelAndView showEditForm(@PathVariable("id") Long id) {
         var editView = new ModelAndView("edit-film");
         var film = service.get(id);
         editView.addObject("film", film);
         return editView;
     }
 
-    @GetMapping("/delete/{id}")
-    @ApiOperation("Delete film by ID")
+    @PostMapping("/{id}/edit")
+    @ApiOperation("Edit film")
+    public String editFilm(@Valid @ModelAttribute("film") Film film) {
+        log.debug("Request to edit film: {}", film);
+        service.add(film);
+        return "redirect:/films";
+    }
+
+    @GetMapping("/{id}/delete")
+    @ApiOperation("Delete film")
     public String deleteFilm(@PathVariable("id") Long id) {
         log.debug("Request to delete film: ID {}", id);
         service.delete(id);

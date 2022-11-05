@@ -68,10 +68,10 @@
                     ></td>
                     <td style="width: 0">
                         <div class="edit-delete">
-                            <a class="button" th:href="@{'films/edit/' + ${film.id}}"
+                            <a class="button" th:href="@{'films/' + ${film.id} + '/edit'}"
                             >Edit</a
                             >
-                            <a class="button" th:href="@{'films/delete/' + ${film.id}}"
+                            <a class="button" th:href="@{'films/' + ${film.id} + '/delete'}"
                             >Delete</a
                             >
                         </div>
