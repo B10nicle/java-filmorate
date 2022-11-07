@@ -2,10 +2,12 @@ package ru.yandex.practicum.filmorate.service;
 
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
+import org.springframework.validation.annotation.Validated;
 import ru.yandex.practicum.filmorate.validator.Validator;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -13,7 +15,8 @@ import java.util.List;
  */
 
 @Service
-public class FilmService extends Services<Film> {
+@Validated
+public class FilmService implements Services<Film> {
     private final Validator<Film> validator;
     private final FilmRepository repository;
 
@@ -24,7 +27,7 @@ public class FilmService extends Services<Film> {
     }
 
     @Override
-    public Film add(Film film) {
+    public Film add(@Valid Film film) {
         validator.validate(film);
         return repository.save(film);
     }

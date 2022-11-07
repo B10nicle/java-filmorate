@@ -7,7 +7,6 @@ import ru.yandex.practicum.filmorate.storage.Storage;
 import ru.yandex.practicum.filmorate.entity.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +14,7 @@ import java.util.List;
  */
 
 @Service
-public class UserService extends Services<User> {
+public class UserService implements Services<User> {
     private final Validator<User> validator;
     private final Storage<User> storage;
 

@@ -6,14 +6,14 @@ import java.util.List;
  * @author Oleg Khilko
  */
 
-public abstract class Services<T> {
+public interface Services<T> {
 
-    public abstract T add(T t);
+    T add(T t);
 
-    public abstract T get(Long id);
+    T get(Long id);
 
-    public abstract void delete(Long id);
+    void delete(Long id);
 
-    public abstract List<T> search(String keyword);
+    List<T> search(String keyword);
 
 }

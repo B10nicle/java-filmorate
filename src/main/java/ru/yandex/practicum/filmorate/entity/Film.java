@@ -32,7 +32,4 @@ public class Film {
 
     @NotNull
     private LocalDate releaseDate;
-
-    public Film() {
-    }
 }
