@@ -12,11 +12,11 @@ public abstract class Storage<T> {
 
     public abstract T update(T t);
 
-    public abstract Map<Integer, T> getAll();
+    public abstract Map<Long, T> getAll();
 
-    public abstract T getById(int id);
+    public abstract T getById(Long id);
 
     public abstract void deleteAll();
 
-    public abstract void deleteById(int id);
+    public abstract void deleteById(Long id);
 }

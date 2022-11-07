@@ -24,7 +24,7 @@ class FilmValidatorTest {
         validator = new FilmValidator();
         film = new Film();
 
-        film.setId(0);
+        film.setId(0L);
         film.setDuration(123);
         film.setName("The Best Movie");
         film.setDescription("Yet another movie");

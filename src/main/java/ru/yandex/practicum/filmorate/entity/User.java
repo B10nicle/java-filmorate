@@ -2,10 +2,10 @@ package ru.yandex.practicum.filmorate.entity;
 
 import lombok.Data;
 
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Email;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Oleg Khilko
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 @Data
 public class User {
-    private int id;
+    private Long id;
 
     private String name;
 
@@ -25,4 +25,6 @@ public class User {
 
     @PastOrPresent
     private LocalDate birthday;
+
+    private Set<Long> friends = new HashSet<>();
 }

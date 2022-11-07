@@ -7,6 +7,7 @@ import ru.yandex.practicum.filmorate.storage.Storage;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +29,10 @@ public class FilmService extends ServiceAbs<Film> {
     @Override
     public Film add(Film film) {
         boolean exists = storage.getAll().containsKey(film.getId());
-        boolean isEmpty = storage.getAll().isEmpty();
+        boolean storageIsEmpty = storage.getAll().isEmpty();
         validator.validate(film);
 
-        if (isEmpty)
+        if (storageIsEmpty)
             return storage.add(film);
 
         if (!exists)
@@ -54,7 +55,7 @@ public class FilmService extends ServiceAbs<Film> {
     }
 
     @Override
-    public Film getById(int id) {
+    public Film getById(Long id) {
         boolean exists = storage.getAll().containsKey(id);
 
         if (!exists)
@@ -71,9 +72,9 @@ public class FilmService extends ServiceAbs<Film> {
 
     @Override
     public void deleteAll() {
-        boolean isEmpty = storage.getAll().isEmpty();
+        boolean storageIsEmpty = storage.getAll().isEmpty();
 
-        if (isEmpty)
+        if (storageIsEmpty)
             throw new DoesntExistException(
                     "Невозможно удалить несуществующие фильмы");
 
@@ -81,7 +82,7 @@ public class FilmService extends ServiceAbs<Film> {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void delete(Long id) {
         boolean exists = storage.getAll().containsKey(id);
 
         if (!exists)
@@ -89,5 +90,45 @@ public class FilmService extends ServiceAbs<Film> {
                     "Невозможно удалить несуществующий фильм");
 
         storage.deleteById(id);
+    }
+
+    public void addLike(Long userId, Long filmId) {
+        boolean userDoesntExist = storage.getAll().get(userId) == null;
+        boolean filmDoesntExist = storage.getAll().get(filmId) == null;
+
+        if (userDoesntExist)
+            throw new DoesntExistException(
+                    "Данного пользователя не существует");
+
+        if (filmDoesntExist)
+            throw new DoesntExistException(
+                    "Данного фильма не существует");
+
+        storage.getById(filmId).getLikes().add(userId);
+    }
+
+    public void deleteLike(Long userId, Long filmId) {
+        boolean userDoesntExist = storage.getAll().get(userId) == null;
+        boolean filmDoesntExist = storage.getAll().get(filmId) == null;
+        boolean storageIsEmpty = storage.getAll().isEmpty();
+
+        if (userDoesntExist || storageIsEmpty)
+            throw new DoesntExistException(
+                    "Данного пользователя не существует");
+
+        if (filmDoesntExist)
+            throw new DoesntExistException(
+                    "Данного фильма не существует");
+
+        storage.getById(filmId).getLikes().remove(userId);
+    }
+
+    public List<Film> getPopularFilms(int amount) {
+        var films = storage.getAll().values();
+
+        return films.stream()
+                .sorted()
+                .limit(amount)
+                .collect(Collectors.toList());
     }
 }

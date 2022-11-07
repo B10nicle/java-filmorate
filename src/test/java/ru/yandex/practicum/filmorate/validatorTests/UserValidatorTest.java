@@ -23,7 +23,7 @@ class UserValidatorTest {
         validator = new UserValidator();
         user = new User();
 
-        user.setId(0);
+        user.setId(0L);
         user.setName("James Gold");
         user.setLogin("JamesGold009");
         user.setEmail("jamesgold@gmail.ru");

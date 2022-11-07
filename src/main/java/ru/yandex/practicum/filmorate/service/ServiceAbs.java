@@ -12,11 +12,17 @@ public abstract class ServiceAbs<T> {
 
     public abstract T update(T t);
 
-    public abstract List<T> getAll();
+    public abstract T getById(Long id);
 
-    public abstract T getById(int id);
+    public abstract List<T> getAll();
 
     public abstract void deleteAll();
 
-    public abstract void deleteById(int id);
+    public abstract void delete(Long id);
+
 }
+
+
+
+
+
