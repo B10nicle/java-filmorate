@@ -35,7 +35,7 @@ public class FilmService extends ServiceAbs<Film> {
         if (storageIsEmpty)
             return storage.add(film);
 
-        if (!exists)
+        if (exists)
             throw new AlreadyAddedException(
                     "Фильм: " + film.getDescription() + " уже добавлен");
 
@@ -127,7 +127,7 @@ public class FilmService extends ServiceAbs<Film> {
         var films = storage.getAll().values();
 
         return films.stream()
-                .sorted()
+                .sorted(Film::compareTo)
                 .limit(amount)
                 .collect(Collectors.toList());
     }
