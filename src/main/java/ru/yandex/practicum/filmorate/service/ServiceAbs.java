@@ -19,10 +19,4 @@ public abstract class ServiceAbs<T> {
     public abstract void deleteAll();
 
     public abstract void delete(Long id);
-
 }
-
-
-
-
-
