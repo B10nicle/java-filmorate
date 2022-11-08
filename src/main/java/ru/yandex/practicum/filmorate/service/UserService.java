@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.service;
 
 import ru.yandex.practicum.filmorate.exception.AlreadyAddedException;
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
-import ru.yandex.practicum.filmorate.validator.Validator;
 import ru.yandex.practicum.filmorate.storage.Storage;
 import ru.yandex.practicum.filmorate.entity.User;
 import org.springframework.stereotype.Service;
@@ -17,12 +16,9 @@ import java.util.List;
 
 @Service
 public class UserService extends ServiceAbs<User> {
-    private final Validator<User> validator;
     private final Storage<User> storage;
 
-    public UserService(Validator<User> validator,
-                       Storage<User> storage) {
-        this.validator = validator;
+    public UserService(Storage<User> storage) {
         this.storage = storage;
     }
 
@@ -30,7 +26,7 @@ public class UserService extends ServiceAbs<User> {
     public User add(User user) {
         boolean exists = storage.getAll().containsKey(user.getId());
         boolean storageIsEmpty = storage.getAll().isEmpty();
-        validator.validate(user);
+        validate(user);
 
         if (storageIsEmpty)
             return storage.add(user);
@@ -46,7 +42,7 @@ public class UserService extends ServiceAbs<User> {
     @Override
     public User update(User user) {
         boolean exists = storage.getAll().containsKey(user.getId());
-        validator.validate(user);
+        validate(user);
 
         if (!exists)
             throw new DoesntExistException(
@@ -54,6 +50,11 @@ public class UserService extends ServiceAbs<User> {
                             + user.getEmail() + " не сущестует");
 
         return storage.update(user);
+    }
+
+    private void validate(User user) {
+        if (user.getName() == null || user.getName().isBlank())
+            user.setName(user.getLogin());
     }
 
     @Override

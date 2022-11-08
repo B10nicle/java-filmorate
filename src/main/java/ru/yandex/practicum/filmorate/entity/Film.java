@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.entity;
 
+import ru.yandex.practicum.filmorate.constraints.ReleaseDate;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -26,6 +27,7 @@ public class Film implements Comparable<Film> {
     private String description;
 
     @NotNull
+    @ReleaseDate
     private LocalDate releaseDate;
 
     private Set<Long> likes = new HashSet<>();
