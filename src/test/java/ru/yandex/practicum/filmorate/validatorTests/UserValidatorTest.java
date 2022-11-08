@@ -1,7 +1,5 @@
 package ru.yandex.practicum.filmorate.validatorTests;
 
-import ru.yandex.practicum.filmorate.validator.UserValidator;
-import ru.yandex.practicum.filmorate.validator.Validator;
 import ru.yandex.practicum.filmorate.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -2,11 +2,11 @@ package ru.yandex.practicum.filmorate.entity;
 
 import lombok.Data;
 
-import javax.persistence.GeneratedValue;
 import javax.validation.constraints.*;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.time.LocalDate;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Oleg Khilko
@@ -30,4 +30,29 @@ public class User {
 
     @PastOrPresent
     private LocalDate birthday;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_film",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "film_id")
+    )
+    private Set<Film> likedFilms = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_film",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<Film> likedUsers = new HashSet<>();
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "friends",
+            joinColumns = @JoinColumn(name = "from_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "to_user_id")
+    )
+    private Set<User> friends = new HashSet<>();
 }

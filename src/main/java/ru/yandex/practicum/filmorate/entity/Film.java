@@ -1,13 +1,12 @@
 package ru.yandex.practicum.filmorate.entity;
 
-import lombok.Data;
 import ru.yandex.practicum.filmorate.constraints.ReleaseDate;
+import lombok.Data;
 
-import javax.persistence.GeneratedValue;
 import javax.validation.constraints.*;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * @author Oleg Khilko
@@ -15,7 +14,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-public class Film {
+public class Film implements Comparable<Film> {
 
     @Id
     @GeneratedValue
@@ -34,4 +33,12 @@ public class Film {
     @NotNull
     @ReleaseDate
     private LocalDate releaseDate;
+
+    @ManyToMany (mappedBy = "likedFilms")
+    private Set<User> likes;
+
+    @Override
+    public int compareTo(Film o) {
+        return o.getLikes().size() - this.getLikes().size();
+    }
 }

@@ -2,11 +2,12 @@ package ru.yandex.practicum.filmorate.service;
 
 import ru.yandex.practicum.filmorate.exception.AlreadyAddedException;
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
-import ru.yandex.practicum.filmorate.validator.Validator;
-import ru.yandex.practicum.filmorate.storage.Storage;
+import ru.yandex.practicum.filmorate.repository.UserRepository;
 import ru.yandex.practicum.filmorate.entity.User;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.util.List;
 
 /**
@@ -15,56 +16,100 @@ import java.util.List;
 
 @Service
 public class UserService implements Services<User> {
-    private final Validator<User> validator;
-    private final Storage<User> storage;
+    private final UserRepository userRepository;
 
-    public UserService(Validator<User> validator,
-                       Storage<User> storage) {
-        this.validator = validator;
-        this.storage = storage;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public User add(User user) {
-        boolean exists = storage.getAll().containsKey(user.getId());
-        boolean isEmpty = storage.getAll().isEmpty();
-        validator.validate(user);
+        validate(user);
+        return userRepository.save(user);
+    }
 
-        if (isEmpty)
-            return storage.add(user);
-
-        if (exists)
-            throw new AlreadyAddedException(
-                    "Пользователь: " + user.getId() + " "
-                            + user.getEmail() + " уже добавлен");
-
-        return storage.add(user);
+    private void validate(User user) {
+        if (user.getName() == null || user.getName().isBlank())
+            user.setName(user.getLogin());
     }
 
     @Override
-    public User get(Long id) {
-        boolean exists = storage.getAll().containsKey(id);
+    public User getById(Long id) {
+        var user = userRepository.findById(id);
 
-        if (!exists)
+        if (user.isEmpty())
             throw new DoesntExistException(
                     "Невозможно получить несуществующего пользователя");
 
-        return storage.getById(id);
-    }
-
-    @Override
-    public void delete(Long id) {
-        boolean exists = storage.getAll().containsKey(id);
-
-        if (!exists)
-            throw new DoesntExistException(
-                    "Невозможно удалить несуществующего пользователя");
-
-        storage.deleteById(id);
+        return user.get();
     }
 
     @Override
     public List<User> search(String keyword) {
-        return null;
+        if (keyword != null)
+            return userRepository.search(keyword);
+
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void delete(Long id) {
+        var user = userRepository.findById(id);
+
+        if (user.isEmpty())
+            throw new DoesntExistException(
+                    "Невозможно удалить несуществующего пользователя");
+
+        userRepository.deleteById(id);
+    }
+
+    public List<User> getFriends(Long id) {
+        var user = userRepository.findById(id);
+
+        if (user.isEmpty())
+            throw new DoesntExistException(
+                    "Невозможно получить несуществующего пользователя");
+
+        return new ArrayList<>(user.get().getFriends());
+    }
+
+    public void addFriend(Long myId, Long hisId) {
+        var user = userRepository.findById(myId);
+        var friend = userRepository.findById(hisId);
+
+        if (user.isEmpty() || friend.isEmpty())
+            throw new DoesntExistException(
+                    "Данного пользователя не существует");
+
+        user.get().getFriends().add(friend.get());
+        friend.get().getFriends().add(user.get());
+    }
+
+    public void deleteFriend(Long myId, Long hisId) {
+        var user = userRepository.findById(myId);
+        var friend = userRepository.findById(hisId);
+
+        if (user.isEmpty() || friend.isEmpty())
+            throw new DoesntExistException(
+                    "Данного пользователя не существует");
+
+        user.get().getFriends().remove(friend.get());
+        friend.get().getFriends().remove(user.get());
+    }
+
+    public List<User> getCommonFriends(Long myId, Long hisId) {
+        var user = userRepository.findById(myId);
+        var friend = userRepository.findById(hisId);
+
+        if (user.isEmpty() || friend.isEmpty())
+            throw new DoesntExistException(
+                    "Данного пользователя не существует");
+
+        var myFriends = user.get().getFriends();
+        var hisFriends = friend.get().getFriends();
+
+        return myFriends.stream()
+                .filter(hisFriends::contains)
+                .collect(Collectors.toList());
     }
 }

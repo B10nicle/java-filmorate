@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import ru.yandex.practicum.filmorate.service.FilmService;
 import org.springframework.data.repository.query.Param;
-import ru.yandex.practicum.filmorate.service.Services;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.stereotype.Controller;
 import ru.yandex.practicum.filmorate.entity.Film;
@@ -22,24 +22,24 @@ import javax.validation.Valid;
 @RequestMapping("/films")
 @Tag(name = "film-controller", description = "Film Service API")
 public class FilmController {
-    private final Services<Film> service;
+    private final FilmService service;
 
-    public FilmController(Services<Film> service) {
+    public FilmController(FilmService service) {
         this.service = service;
     }
 
     @GetMapping()
     @ApiOperation("Show all films")
-    public String getFilms(Model model, @Param("keyword") String keyword) {
+    public String getFilms(Model model,
+                           @Param("keyword") String keyword) {
         var films = service.search(keyword);
 
         if (films.isEmpty())
             return "search-error";
 
-        model.addAttribute("films", films);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("films", films);
         log.debug("List of all films: " + films);
-
         return "films";
     }
 
@@ -63,8 +63,9 @@ public class FilmController {
     @GetMapping("/{id}/edit")
     @ApiOperation("Show form to edit a film")
     public ModelAndView showEditForm(@PathVariable("id") Long id) {
+        log.debug("Request to edit film with ID: {}", id);
         var editView = new ModelAndView("edit-film");
-        var film = service.get(id);
+        var film = service.getById(id);
         editView.addObject("film", film);
         return editView;
     }
@@ -83,5 +84,31 @@ public class FilmController {
         log.debug("Request to delete film: ID {}", id);
         service.delete(id);
         return "redirect:/films";
+    }
+
+    @GetMapping("/popular")
+    @ApiOperation("Get the most popular films")
+    public String getPopularFilms(Model model,
+                                  @RequestParam(defaultValue = "10") int count) {
+        log.debug("Request to show {} most popular films", count);
+        var popular = service.getPopularFilms(count);
+        model.addAttribute("popular", popular);
+        return "popular";
+    }
+
+    @PostMapping("/{id}/like/{userId}")
+    @ApiOperation("Add like")
+    public void addLike(@PathVariable Long userId,
+                        @PathVariable Long id) {
+        log.debug("User with ID: {} added like to the film with ID: {}", userId, id);
+        service.addLike(userId, id);
+    }
+
+    @GetMapping("/{id}/like/{userId}/delet")
+    @ApiOperation("Delete like")
+    public void deleteLike(@PathVariable Long userId,
+                           @PathVariable Long id) {
+        log.debug("User with ID: {} deleted like from the film with ID: {}", userId, id);
+        service.deleteLike(userId, id);
     }
 }

@@ -12,6 +12,6 @@ import java.util.List;
 
 public interface FilmRepository extends JpaRepository<Film, Long> {
 
-    @Query("SELECT film FROM Film film WHERE CONCAT(film.id, ' ', film.name, ' ', film.description, ' ', film.duration, ' ', film.releaseDate) LIKE %?1%")
+    @Query("SELECT film FROM Film film WHERE CONCAT(film.name, ' ', film.description, ' ', film.duration, ' ', film.releaseDate) LIKE %?1%")
     List<Film> search(String keyword);
 }

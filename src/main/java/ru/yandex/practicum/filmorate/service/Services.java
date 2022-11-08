@@ -10,10 +10,9 @@ public interface Services<T> {
 
     T add(T t);
 
-    T get(Long id);
+    T getById(Long id);
 
     void delete(Long id);
 
     List<T> search(String keyword);
-
 }

@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.validatorTests;
 
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.validator.FilmValidator;
-import ru.yandex.practicum.filmorate.validator.Validator;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
