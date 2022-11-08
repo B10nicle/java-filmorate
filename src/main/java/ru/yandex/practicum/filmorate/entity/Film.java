@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.entity;
 
 import lombok.Data;
+import ru.yandex.practicum.filmorate.constraints.ReleaseDate;
 
 import javax.persistence.GeneratedValue;
 import javax.validation.constraints.*;
@@ -31,5 +32,6 @@ public class Film {
     private String description;
 
     @NotNull
+    @ReleaseDate
     private LocalDate releaseDate;
 }

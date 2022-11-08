@@ -11,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.ui.Model;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.validation.Valid;
+
 /**
  * @author Oleg Khilko
  */
@@ -52,7 +54,7 @@ public class FilmController {
 
     @PostMapping("/add")
     @ApiOperation("Add film")
-    public String addFilm(@ModelAttribute("film") Film film) {
+    public String addFilm(@Valid @ModelAttribute("film") Film film) {
         log.debug("Request to create film: {}", film);
         service.add(film);
         return "redirect:/films";
@@ -69,7 +71,7 @@ public class FilmController {
 
     @PostMapping("/{id}/edit")
     @ApiOperation("Edit film")
-    public String editFilm(@ModelAttribute("film") Film film) {
+    public String editFilm(@Valid @ModelAttribute("film") Film film) {
         log.debug("Request to edit film: {}", film);
         service.add(film);
         return "redirect:/films";
