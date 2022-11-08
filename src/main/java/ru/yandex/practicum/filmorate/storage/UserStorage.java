@@ -12,11 +12,12 @@ import java.util.Map;
 
 @Component
 public class UserStorage extends Storage<User> {
-    private final Map<Integer, User> users;
-    private int id;
+    private final Map<Long, User> users;
+    private Long id;
 
     public UserStorage() {
         this.users = new HashMap<>();
+        this.id = 0L;
     }
 
     @Override
@@ -33,12 +34,12 @@ public class UserStorage extends Storage<User> {
     }
 
     @Override
-    public Map<Integer, User> getAll() {
+    public Map<Long, User> getAll() {
         return users;
     }
 
     @Override
-    public User getById(int id) {
+    public User getById(Long id) {
         return users.get(id);
     }
 
@@ -48,7 +49,7 @@ public class UserStorage extends Storage<User> {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Long id) {
         users.remove(id);
     }
 }

@@ -4,14 +4,16 @@ import lombok.Data;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Oleg Khilko
  */
 
 @Data
-public class Film {
-    private int id;
+public class Film implements Comparable<Film> {
+    private Long id;
 
     @NotBlank
     private String name;
@@ -25,4 +27,11 @@ public class Film {
 
     @NotNull
     private LocalDate releaseDate;
+
+    private Set<Long> likes = new HashSet<>();
+
+    @Override
+    public int compareTo(Film o) {
+        return o.getLikes().size() - this.getLikes().size();
+    }
 }
