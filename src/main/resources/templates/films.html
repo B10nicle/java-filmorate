@@ -39,6 +39,7 @@
                 <a class="button" href="/films/add-film">Add film</a>
                 <a class="button" href="/users/add-user">Add user</a>
                 <a class="button" href="/films">Films</a>
+                <a class="button" href="/films/popular">Popular films</a>
                 <a class="button" href="/users">Users</a>
                 <a class="button" href="/home">Home</a>
             </div>
@@ -49,33 +50,32 @@
             <table class="table" style="width: 90%">
                 <thead class="thead">
                 <tr>
-                    <th scope="row" style="width: 5%">ID</th>
                     <th scope="row" style="width: 15%">Name</th>
                     <th scope="row" style="width: 30%">Description</th>
                     <th scope="row" style="width: 20%">Duration</th>
-                    <th scope="row" style="width: 10%">Release Date</th>
-                    <th scope="row" style="width: 10%">Actions</th>
+                    <th scope="row" style="width: 15%">Release Date</th>
+                    <th scope="row" style="width: 15%">Likes</th>
+                    <th scope="row" style="width: 10%">More info</th>
                 </tr>
                 </thead>
                 <tbody class="tbody">
                 <tr th:each="film : ${films}">
-                    <td th:text="${film.id}"></td>
                     <td th:text="${film.name}"></td>
                     <td th:text="${film.description}"></td>
                     <td th:text="${film.duration}"></td>
                     <td
                             th:text="${#temporals.format(film.releaseDate,'dd.MM.yyyy')}"
                     ></td>
+                    <td th:text="${film.likes.size()}"></td>
+
                     <td style="width: 0">
                         <div class="edit-delete">
-                            <a class="button" th:href="@{'films/' + ${film.id} + '/edit'}"
-                            >Edit</a
-                            >
-                            <a class="button" th:href="@{'films/' + ${film.id} + '/delete'}"
-                            >Delete</a
+                            <a class="button" th:href="@{'films/' + ${film.id}}"
+                            >Details</a
                             >
                         </div>
                     </td>
+
                 </tr>
                 </tbody>
             </table>

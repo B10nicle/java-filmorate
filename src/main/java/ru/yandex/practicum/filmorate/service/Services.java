@@ -1,5 +1,8 @@
 package ru.yandex.practicum.filmorate.service;
 
+import ru.yandex.practicum.filmorate.dto.UserRegistrationDto;
+import ru.yandex.practicum.filmorate.entity.User;
+
 import java.util.List;
 
 /**
@@ -15,4 +18,6 @@ public interface Services<T> {
     void delete(Long id);
 
     List<T> search(String keyword);
+
+    User save(UserRegistrationDto userRegistrationDto);
 }

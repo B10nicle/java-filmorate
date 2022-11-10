@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.ui.Model;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.servlet.annotation.HttpMethodConstraint;
 import javax.validation.Valid;
 
 /**
@@ -41,6 +42,16 @@ public class FilmController {
         model.addAttribute("films", films);
         log.debug("List of all films: " + films);
         return "films";
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("Get film by ID")
+    public String getFilmById(Model model,
+                              @PathVariable("id") Long id) {
+        var film = service.getById(id);
+        log.debug("Request to get film by ID {}", id);
+        model.addAttribute("film", film);
+        return "get-film-by-id";
     }
 
     @GetMapping("/add-film")
@@ -75,7 +86,7 @@ public class FilmController {
     public String editFilm(@Valid @ModelAttribute("film") Film film) {
         log.debug("Request to edit film: {}", film);
         service.add(film);
-        return "redirect:/films";
+        return "redirect:/films/{id}";
     }
 
     @GetMapping("/{id}/delete")
@@ -85,30 +96,14 @@ public class FilmController {
         service.delete(id);
         return "redirect:/films";
     }
-
-    @GetMapping("/popular")
+    
+/*    @GetMapping("/popular")
     @ApiOperation("Get the most popular films")
     public String getPopularFilms(Model model,
                                   @RequestParam(defaultValue = "10") int count) {
         log.debug("Request to show {} most popular films", count);
-        var popular = service.getPopularFilms(count);
-        model.addAttribute("popular", popular);
+        var films = service.getPopularFilms(count);
+        model.addAttribute("films", films);
         return "popular";
-    }
-
-    @PostMapping("/{id}/like/{userId}")
-    @ApiOperation("Add like")
-    public void addLike(@PathVariable Long userId,
-                        @PathVariable Long id) {
-        log.debug("User with ID: {} added like to the film with ID: {}", userId, id);
-        service.addLike(userId, id);
-    }
-
-    @GetMapping("/{id}/like/{userId}/delet")
-    @ApiOperation("Delete like")
-    public void deleteLike(@PathVariable Long userId,
-                           @PathVariable Long id) {
-        log.debug("User with ID: {} deleted like from the film with ID: {}", userId, id);
-        service.deleteLike(userId, id);
-    }
+    }*/
 }

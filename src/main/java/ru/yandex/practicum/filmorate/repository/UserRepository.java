@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("SELECT user FROM User user WHERE CONCAT(user.name, ' ', user.birthday, ' ', user.email, ' ', user.login) LIKE %?1%")
-    List<User> search(String keyword);
+/*    @Query("SELECT user FROM User user WHERE CONCAT(user.firstName, ' ', user.birthday, ' ', user.email, ' ', user.login) LIKE %?1%")
+    List<User> search(String keyword);*/
+
+    User findByEmail(String email);
 }

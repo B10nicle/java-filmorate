@@ -30,8 +30,8 @@ public class UserController {
 
     @GetMapping()
     @ApiOperation("Show all users")
-    public String getUsers(Model model,
-                           @Param("keyword") String keyword) {
+    public String getUsers(@Param("keyword") String keyword,
+                           Model model) {
         var users = service.search(keyword);
 
         if (users.isEmpty())
@@ -41,6 +41,16 @@ public class UserController {
         model.addAttribute("users", users);
         log.debug("List of all users: " + users);
         return "users";
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("Get user by ID")
+    public String getUserById(@PathVariable("id") Long id,
+                              Model model) {
+        var user = service.getById(id);
+        log.debug("Request to get user by ID {}", id);
+        model.addAttribute("user", user);
+        return "get-user-by-id";
     }
 
     @GetMapping("/add-user")
@@ -74,7 +84,7 @@ public class UserController {
     public String editUser(@Valid @ModelAttribute("user") User user) {
         log.debug("Request to edit user: {}", user);
         service.add(user);
-        return "redirect:/users";
+        return "redirect:/users/{id}";
     }
 
     @GetMapping("/{id}/delete")
@@ -85,10 +95,32 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @GetMapping("/{id}/friends")
+/*    @PostMapping("/{id}/like/{userId}/add")
+    @ApiOperation("Add like")
+    public String addLike(@PathVariable Long userId,
+                          @PathVariable Long id,
+                          Model model) {
+        log.debug("User with ID: {} added like to the film with ID: {}", userId, id);
+        var likes = service.addLike(userId, id);
+        model.addAttribute("likes", likes);
+        return "redirect:/users/{id}";
+    }
+
+    @GetMapping("/{id}/like/{userId}/delete")
+    @ApiOperation("Delete like")
+    public String deleteLike(@PathVariable Long userId,
+                             @PathVariable Long id,
+                             Model model) {
+        log.debug("User with ID: {} deleted like from the film with ID: {}", userId, id);
+        var likes = service.deleteLike(userId, id);
+        model.addAttribute("likes", likes);
+        return "redirect:/users/{id}";
+    }*/
+
+/*    @GetMapping("/{id}/friends")
     @ApiOperation("Get the list of friends")
-    public String getFriends(Model model,
-                             @PathVariable Long id) {
+    public String getFriends(@PathVariable Long id,
+                             Model model) {
         var friends = service.getFriends(id);
         model.addAttribute("friends", friends);
         log.debug("Request to get the list of friends of user: ID {}", id);
@@ -97,9 +129,9 @@ public class UserController {
 
     @GetMapping("/{id}/friends/common/{otherId}")
     @ApiOperation("Get the list of all common friends")
-    public String getCommonFriends(Model model,
+    public String getCommonFriends(@PathVariable Long otherId,
                                    @PathVariable Long id,
-                                   @PathVariable Long otherId) {
+                                   Model model) {
         var commonFriends = service.getCommonFriends(id, otherId);
         model.addAttribute("commonFriends", commonFriends);
         log.debug("Request to get the list of all common friends of user: ID {}", id);
@@ -108,8 +140,8 @@ public class UserController {
 
     @PostMapping("/{id}/friends/{friendId}")
     @ApiOperation("Add friend")
-    public String addFriend(@PathVariable Long id,
-                            @PathVariable Long friendId) {
+    public String addFriend(@PathVariable Long friendId,
+                            @PathVariable Long id) {
         log.debug("User with ID: {} added a friend with ID: {}", id, friendId);
         service.addFriend(id, friendId);
         return "redirect:/users/{id}/friends";
@@ -117,10 +149,10 @@ public class UserController {
 
     @GetMapping("/{id}/friends/{friendId}/delete")
     @ApiOperation("Delete friend")
-    public String deleteFriend(@PathVariable Long id,
-                               @PathVariable Long friendId) {
+    public String deleteFriend(@PathVariable Long friendId,
+                               @PathVariable Long id) {
         log.debug("User with ID: {} deleted a friend with ID: {}", id, friendId);
         service.deleteFriend(id, friendId);
         return "redirect:/users/{id}/friends";
-    }
+    }*/
 }

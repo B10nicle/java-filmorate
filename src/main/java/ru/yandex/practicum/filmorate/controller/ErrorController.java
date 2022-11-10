@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import ru.yandex.practicum.filmorate.exception.AlreadyAddedException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
@@ -16,29 +18,15 @@ import java.util.Map;
  */
 
 @Slf4j
-@RestControllerAdvice
+@ControllerAdvice
 public class ErrorController {
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleValidationException(final ValidationException e) {
-        log.error("error: " + e.getMessage());
-        return Map.of("error", e.getMessage());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleDoesntExistException(final DoesntExistException e) {
-        log.error("error: " + e.getMessage());
-        return Map.of("error", "Данного фильма не существует",
-                "errorMessage", e.getMessage());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleAlreadyAddedException(final AlreadyAddedException e) {
-        log.error("error: " + e.getMessage());
-        return Map.of("error", "Данный фильм уже добавлен",
-                "errorMessage", e.getMessage());
+    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String exception(final Throwable throwable, final Model model) {
+        log.error("Exception during execution of SpringSecurity application", throwable);
+        String errorMessage = (throwable != null ? throwable.getMessage() : "Unknown error");
+        model.addAttribute("errorMessage", errorMessage);
+        return "error";
     }
 }

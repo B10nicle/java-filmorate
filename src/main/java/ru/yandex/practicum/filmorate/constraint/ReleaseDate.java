@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.constraints;
+package ru.yandex.practicum.filmorate.constraint;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

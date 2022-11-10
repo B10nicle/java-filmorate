@@ -3,10 +3,8 @@ package ru.yandex.practicum.filmorate.entity;
 import lombok.Data;
 
 import javax.validation.constraints.*;
-import java.time.LocalDate;
+import java.util.Collection;
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Oleg Khilko
@@ -14,45 +12,41 @@ import java.util.Set;
 
 @Data
 @Entity
+@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    private String password;
 
     @Email
     private String email;
 
-    @NotBlank
-    private String login;
-
-    @PastOrPresent
-    private LocalDate birthday;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "user_film",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "film_id")
-    )
-    private Set<Film> likedFilms = new HashSet<>();
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_film",
-            joinColumns = @JoinColumn(name = "film_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<Film> likedUsers = new HashSet<>();
+    public User() {
+    }
 
-
-    @ManyToMany
-    @JoinTable(
-            name = "friends",
-            joinColumns = @JoinColumn(name = "from_user_id"),
-            inverseJoinColumns = @JoinColumn(name = "to_user_id")
-    )
-    private Set<User> friends = new HashSet<>();
+    public User(String firstName, String lastName, String password, String email, Collection<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
+    }
 }

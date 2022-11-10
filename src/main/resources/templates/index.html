@@ -7,13 +7,13 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/normalize.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
     <link rel="shortcut icon" th:href="@{/images/icon.ico}"/>
-    <title>FilmoRate | Users</title>
+    <title>FilmoRate | Homepage</title>
 </head>
 <body>
 <div class="page">
     <header>
         <div class="header">
-            <a class="logo" href="/home"
+            <a class="logo" href="/index"
             ><img
                     class="logo__filmorate"
                     src="/images/logo_filmorate.png"
@@ -26,7 +26,7 @@
             <form
                     class="search-box"
                     name="search"
-                    th:action="@{/users}"
+                    th:action="@{/films}"
                     method="get"
             >
                 <label for="search-input"></label>
@@ -45,36 +45,10 @@
             </div>
         </nav>
     </header>
-    <main class="content">
-        <div class="table-content">
-            <table class="table" style="width: 90%">
-                <thead class="thead">
-                <tr>
-                    <th scope="row" style="width: 15%">Name</th>
-                    <th scope="row" style="width: 20%">Login</th>
-                    <th scope="row" style="width: 20%">Email</th>
-                    <th scope="row" style="width: 15%">Birthday</th>
-                    <th scope="row" style="width: 15%">Friends</th>
-                    <th scope="row" style="width: 10%">More info</th>
-                </tr>
-                </thead>
-                <tbody class="tbody">
-                <tr th:each="user : ${users}">
-                    <td th:text="${user.getFirstName}"></td>
-                    <td th:text="${user.login}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${#temporals.format(user.birthday,'dd.MM.yyyy')}"></td>
-                    <td th:text="${user.friends.size()}"></td>
-                    <td style="width: 0">
-                        <div class="edit-delete">
-                            <a class="button" th:href="@{'users/' + ${user.id}}"
-                            >Details</a
-                            >
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <main class="content-homepage">
+        <div class="heading">
+            <h1 class="title">Welcome to the FilmoRate!</h1>
+            <h2 class="subtitle">The best film adviser in the world.</h2>
         </div>
     </main>
     <footer class="footer">

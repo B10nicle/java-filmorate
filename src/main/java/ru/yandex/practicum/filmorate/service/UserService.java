@@ -1,36 +1,55 @@
 package ru.yandex.practicum.filmorate.service;
 
-import ru.yandex.practicum.filmorate.exception.AlreadyAddedException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.yandex.practicum.filmorate.dto.UserRegistrationDto;
+import ru.yandex.practicum.filmorate.entity.Role;
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
+import ru.yandex.practicum.filmorate.repository.FilmRepository;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
 import ru.yandex.practicum.filmorate.entity.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.List;
 
 /**
  * @author Oleg Khilko
  */
 
 @Service
-public class UserService implements Services<User> {
+public class UserService implements Services<User>, UserDetailsService {
     private final UserRepository userRepository;
+    private final FilmRepository filmRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,
+                       FilmRepository filmRepository,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.filmRepository = filmRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public User save(UserRegistrationDto userRegistrationDto) {
+        var user = new User(userRegistrationDto.getFirstName(),
+                userRegistrationDto.getLastName(),
+                passwordEncoder.encode(userRegistrationDto.getPassword()),
+                userRegistrationDto.getEmail(),
+                List.of(new Role("ROLE_USER")));
+
+        return userRepository.save(user);
     }
 
     @Override
     public User add(User user) {
-        validate(user);
         return userRepository.save(user);
-    }
-
-    private void validate(User user) {
-        if (user.getName() == null || user.getName().isBlank())
-            user.setName(user.getLogin());
     }
 
     @Override
@@ -46,8 +65,8 @@ public class UserService implements Services<User> {
 
     @Override
     public List<User> search(String keyword) {
-        if (keyword != null)
-            return userRepository.search(keyword);
+/*        if (keyword != null)
+            return userRepository.search(keyword);*/
 
         return userRepository.findAll();
     }
@@ -63,7 +82,25 @@ public class UserService implements Services<User> {
         userRepository.deleteById(id);
     }
 
-    public List<User> getFriends(Long id) {
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        var user = userRepository.findByEmail(username);
+
+        if (user == null)
+            throw new UsernameNotFoundException(String.format("Username %s not found", username));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                mapRolesToAuthorities(user.getRoles()));
+    }
+
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream().map(role ->
+                new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+    }
+
+/*    public List<User> getFriends(Long id) {
         var user = userRepository.findById(id);
 
         if (user.isEmpty())
@@ -111,5 +148,29 @@ public class UserService implements Services<User> {
         return myFriends.stream()
                 .filter(hisFriends::contains)
                 .collect(Collectors.toList());
+    }*/
+
+/*    public Set<User> addLike(Long userId, Long filmId) {
+        var user = userRepository.findById(userId);
+        var film = filmRepository.findById(filmId);
+
+        if (user.isEmpty() || film.isEmpty())
+            throw new DoesntExistException(
+                    "Невозможно получить несуществующий объект (фильм/пользователь)");
+
+        film.get().getLikes().add(user.get());
+        return film.get().getLikes();
     }
+
+    public Set<User> deleteLike(Long userId, Long filmId) {
+        var user = userRepository.findById(userId);
+        var film = filmRepository.findById(filmId);
+
+        if (user.isEmpty() || film.isEmpty())
+            throw new DoesntExistException(
+                    "Невозможно получить несуществующий объект (фильм/пользователь)");
+
+        film.get().getLikes().remove(user.get());
+        return film.get().getLikes();
+    }*/
 }

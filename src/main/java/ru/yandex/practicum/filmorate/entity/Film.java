@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.entity;
 
-import ru.yandex.practicum.filmorate.constraints.ReleaseDate;
+import ru.yandex.practicum.filmorate.constraint.ReleaseDate;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -14,10 +14,10 @@ import java.util.Set;
 
 @Data
 @Entity
-public class Film implements Comparable<Film> {
+public class Film {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
@@ -34,11 +34,11 @@ public class Film implements Comparable<Film> {
     @ReleaseDate
     private LocalDate releaseDate;
 
-    @ManyToMany (mappedBy = "likedFilms")
+/*    @ManyToMany (mappedBy = "likedFilms")
     private Set<User> likes;
 
     @Override
     public int compareTo(Film o) {
         return o.getLikes().size() - this.getLikes().size();
-    }
+    }*/
 }

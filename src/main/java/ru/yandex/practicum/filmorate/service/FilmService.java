@@ -1,8 +1,9 @@
 package ru.yandex.practicum.filmorate.service;
 
+import ru.yandex.practicum.filmorate.dto.UserRegistrationDto;
+import ru.yandex.practicum.filmorate.entity.User;
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
-import ru.yandex.practicum.filmorate.repository.UserRepository;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,14 @@ import java.util.stream.Collectors;
 @Service
 public class FilmService implements Services<Film> {
     private final FilmRepository filmRepository;
-    private final UserRepository userRepository;
 
-    public FilmService(FilmRepository filmRepository,
-                       UserRepository userRepository) {
+    public FilmService(FilmRepository filmRepository) {
         this.filmRepository = filmRepository;
-        this.userRepository = userRepository;
+    }
+
+    @Override
+    public User save(UserRegistrationDto userRegistrationDto) {
+        return null;
     }
 
     @Override
@@ -42,8 +45,8 @@ public class FilmService implements Services<Film> {
 
     @Override
     public List<Film> search(String keyword) {
-        if (keyword != null)
-            return filmRepository.search(keyword);
+/*        if (keyword != null)
+            return filmRepository.search(keyword);*/
 
         return filmRepository.findAll();
     }
@@ -59,33 +62,11 @@ public class FilmService implements Services<Film> {
         filmRepository.deleteById(id);
     }
 
-    public void addLike(Long userId, Long filmId) {
-        var user = userRepository.findById(userId);
-        var film = filmRepository.findById(filmId);
-
-        if (user.isEmpty() || film.isEmpty())
-            throw new DoesntExistException(
-                    "Невозможно получить несуществующий объект (фильм/пользователь)");
-
-        film.get().getLikes().add(user.get());
-    }
-
-    public void deleteLike(Long userId, Long filmId) {
-        var user = userRepository.findById(userId);
-        var film = filmRepository.findById(filmId);
-
-        if (user.isEmpty() || film.isEmpty())
-            throw new DoesntExistException(
-                    "Невозможно получить несуществующий объект (фильм/пользователь)");
-
-        film.get().getLikes().remove(userId);
-    }
-
-    public List<Film> getPopularFilms(int amount) {
+/*    public List<Film> getPopularFilms(int amount) {
         return filmRepository.findAll()
                 .stream()
                 .sorted(Film::compareTo)
                 .limit(amount)
                 .collect(Collectors.toList());
-    }
+    }*/
 }

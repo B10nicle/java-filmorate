@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/normalize.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
     <link rel="shortcut icon" th:href="@{/images/icon.ico}"/>
-    <title>FilmoRate | Homepage</title>
+    <title>FilmoRate | User</title>
 </head>
 <body>
 <div class="page">
@@ -26,7 +26,7 @@
             <form
                     class="search-box"
                     name="search"
-                    th:action="@{/films}"
+                    th:action="@{/users}"
                     method="get"
             >
                 <label for="search-input"></label>
@@ -39,15 +39,55 @@
                 <a class="button" href="/films/add-film">Add film</a>
                 <a class="button" href="/users/add-user">Add user</a>
                 <a class="button" href="/films">Films</a>
+                <a class="button" href="/films/popular">Popular films</a>
                 <a class="button" href="/users">Users</a>
                 <a class="button" href="/home">Home</a>
             </div>
         </nav>
     </header>
-    <main class="content-homepage">
-        <div class="heading">
-            <h1 class="title">Welcome to the FilmoRate!</h1>
-            <h2 class="subtitle">The best film adviser in the world.</h2>
+    <main class="content">
+        <div class="table-content">
+            <table class="table" style="width: 90%">
+                <thead class="thead">
+                <tr>
+                    <th scope="row" style="width: 15%">Name</th>
+                    <th scope="row" style="width: 20%">Login</th>
+                    <th scope="row" style="width: 20%">Email</th>
+                    <th scope="row" style="width: 15%">Birthday</th>
+                    <th scope="row" style="width: 10%">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="tbody">
+                <tr>
+                    <td th:text="${user.getFirstName}"></td>
+                    <td th:text="${user.login}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${#temporals.format(user.birthday,'dd.MM.yyyy')}"></td>
+
+                    <td style="width: 0">
+                        <div class="edit-delete">
+                            <a class="button" th:href="@{${user.id} + '/like/' + ${user.id} + '/add'}"
+                            >Add Like</a
+                            >
+                            <a class="button" th:href="@{${user.id} + '/like/' + ${user.id} + '/delete'}"
+                            >Delete Like</a
+                            >
+                        </div>
+                    </td>
+
+                    <td style="width: 0">
+                        <div class="edit-delete">
+                            <a class="button" th:href="@{${user.id} + '/edit'}"
+                            >Edit</a
+                            >
+                            <a class="button" th:href="@{${user.id} + '/delete'}"
+                            >Delete</a
+                            >
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </main>
     <footer class="footer">
