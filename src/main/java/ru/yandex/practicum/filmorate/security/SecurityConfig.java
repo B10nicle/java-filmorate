@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.security;
 
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,7 +31,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/registration**", "/js/**", "/css/**", "/img/**")
+                .antMatchers("/registration**",
+                        "/js/**",
+                        "/css/**",
+                        "/img/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
