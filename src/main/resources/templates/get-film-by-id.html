@@ -65,7 +65,6 @@
                     <td
                             th:text="${#temporals.format(film.releaseDate,'dd.MM.yyyy')}"
                     ></td>
-                    <td th:text="${film.likes.size()}"></td>
                     <td style="width: 0">
                         <div class="edit-delete">
                             <a class="button" th:href="@{${film.id} + '/edit'}"

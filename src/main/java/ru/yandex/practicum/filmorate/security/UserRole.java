@@ -14,8 +14,7 @@ import static ru.yandex.practicum.filmorate.security.UserPermission.*;
 
 
 public enum UserRole {
-    STUDENT(Sets.newHashSet()),
-    ADMIN(Sets.newHashSet(STUDENT_READ, STUDENT_WRITE, COURSE_READ, COURSE_WRITE));
+    STUDENT(Sets.newHashSet()), ADMIN(Sets.newHashSet(STUDENT_READ, STUDENT_WRITE, COURSE_READ, COURSE_WRITE));
 
     private final Set<UserPermission> permissions;
 

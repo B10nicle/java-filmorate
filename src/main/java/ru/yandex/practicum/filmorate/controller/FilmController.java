@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import lombok.AllArgsConstructor;
+import ru.yandex.practicum.filmorate.entity.User;
 import ru.yandex.practicum.filmorate.service.FilmService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,8 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.ui.Model;
 import lombok.extern.slf4j.Slf4j;
+import ru.yandex.practicum.filmorate.service.UserService;
 
-import javax.servlet.annotation.HttpMethodConstraint;
 import javax.validation.Valid;
 
 /**
@@ -20,20 +22,18 @@ import javax.validation.Valid;
 
 @Slf4j
 @Controller
+@AllArgsConstructor
 @RequestMapping("/films")
 @Tag(name = "film-controller", description = "Film Service API")
 public class FilmController {
-    private final FilmService service;
-
-    public FilmController(FilmService service) {
-        this.service = service;
-    }
+    private final FilmService filmService;
+    private final UserService userService;
 
     @GetMapping()
     @ApiOperation("Show all films")
     public String getFilms(Model model,
                            @Param("keyword") String keyword) {
-        var films = service.search(keyword);
+        var films = filmService.search(keyword);
 
         if (films.isEmpty())
             return "search-error";
@@ -48,7 +48,7 @@ public class FilmController {
     @ApiOperation("Get film by ID")
     public String getFilmById(Model model,
                               @PathVariable("id") Long id) {
-        var film = service.getById(id);
+        var film = filmService.getById(id);
         log.debug("Request to get film by ID {}", id);
         model.addAttribute("film", film);
         return "get-film-by-id";
@@ -67,7 +67,7 @@ public class FilmController {
     @ApiOperation("Add film")
     public String addFilm(@Valid @ModelAttribute("film") Film film) {
         log.debug("Request to create film: {}", film);
-        service.add(film);
+        filmService.add(film);
         return "redirect:/films";
     }
 
@@ -76,7 +76,7 @@ public class FilmController {
     public ModelAndView showEditForm(@PathVariable("id") Long id) {
         log.debug("Request to edit film with ID: {}", id);
         var editView = new ModelAndView("edit-film");
-        var film = service.getById(id);
+        var film = filmService.getById(id);
         editView.addObject("film", film);
         return editView;
     }
@@ -85,7 +85,7 @@ public class FilmController {
     @ApiOperation("Edit film")
     public String editFilm(@Valid @ModelAttribute("film") Film film) {
         log.debug("Request to edit film: {}", film);
-        service.add(film);
+        filmService.add(film);
         return "redirect:/films/{id}";
     }
 
@@ -93,7 +93,7 @@ public class FilmController {
     @ApiOperation("Delete film")
     public String deleteFilm(@PathVariable("id") Long id) {
         log.debug("Request to delete film: ID {}", id);
-        service.delete(id);
+        filmService.delete(id);
         return "redirect:/films";
     }
     
@@ -106,4 +106,26 @@ public class FilmController {
         model.addAttribute("films", films);
         return "popular";
     }*/
+
+    @PostMapping("/{id}/like/{userId}/add")
+    @ApiOperation("Add like")
+    public String addLike(@PathVariable Long userId,
+                          @PathVariable Long id,
+                          Model model) {
+        log.debug("User with ID: {} added like to the film with ID: {}", userId, id);
+        var likes = filmService.addLike(userId, id);
+        model.addAttribute("likes", likes);
+        return "redirect:/users/{id}";
+    }
+
+    @GetMapping("/{id}/like/{userId}/delete")
+    @ApiOperation("Delete like")
+    public String deleteLike(@PathVariable Long userId,
+                             @PathVariable Long id,
+                             Model model) {
+        log.debug("User with ID: {} deleted like from the film with ID: {}", userId, id);
+        var likes = filmService.deleteLike(userId, id);
+        model.addAttribute("likes", likes);
+        return "redirect:/users/{id}";
+    }
 }

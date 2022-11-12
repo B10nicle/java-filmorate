@@ -1,13 +1,16 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.AllArgsConstructor;
 import ru.yandex.practicum.filmorate.dto.UserRegistrationDto;
 import ru.yandex.practicum.filmorate.entity.User;
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.repository.UserRepository;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -15,12 +18,10 @@ import java.util.stream.Collectors;
  */
 
 @Service
+@AllArgsConstructor
 public class FilmService implements Services<Film> {
     private final FilmRepository filmRepository;
-
-    public FilmService(FilmRepository filmRepository) {
-        this.filmRepository = filmRepository;
-    }
+    private final UserRepository userRepository;
 
     @Override
     public User save(UserRegistrationDto userRegistrationDto) {
@@ -69,4 +70,28 @@ public class FilmService implements Services<Film> {
                 .limit(amount)
                 .collect(Collectors.toList());
     }*/
+
+    public int addLike(Long userId, Long filmId) {
+        var user = userRepository.findById(userId);
+        var film = filmRepository.findById(filmId);
+
+        if (user.isEmpty() || film.isEmpty())
+            throw new DoesntExistException(
+                    "Невозможно получить несуществующий объект (фильм/пользователь)");
+
+        film.get().getLikes().add(user.get());
+        return film.get().getLikes().size();
+    }
+
+    public int deleteLike(Long userId, Long filmId) {
+        var user = userRepository.findById(userId);
+        var film = filmRepository.findById(filmId);
+
+        if (user.isEmpty() || film.isEmpty())
+            throw new DoesntExistException(
+                    "Невозможно получить несуществующий объект (фильм/пользователь)");
+
+        film.get().getLikes().remove(user.get());
+        return film.get().getLikes().size();
+    }
 }

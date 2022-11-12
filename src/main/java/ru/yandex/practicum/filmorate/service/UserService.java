@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.yandex.practicum.filmorate.dto.UserRegistrationDto;
+import ru.yandex.practicum.filmorate.entity.Film;
 import ru.yandex.practicum.filmorate.entity.Role;
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
@@ -42,7 +44,7 @@ public class UserService implements Services<User>, UserDetailsService {
                 userRegistrationDto.getLastName(),
                 passwordEncoder.encode(userRegistrationDto.getPassword()),
                 userRegistrationDto.getEmail(),
-                List.of(new Role("ROLE_USER")));
+                new Role("ROLE_USER"));
 
         return userRepository.save(user);
     }
@@ -92,12 +94,11 @@ public class UserService implements Services<User>, UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
+                Set.of(mapRoleToAuthority(user.getRole())));
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role ->
-                new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+    private GrantedAuthority mapRoleToAuthority(Role role) {
+        return new SimpleGrantedAuthority(role.getName());
     }
 
 /*    public List<User> getFriends(Long id) {
@@ -148,29 +149,5 @@ public class UserService implements Services<User>, UserDetailsService {
         return myFriends.stream()
                 .filter(hisFriends::contains)
                 .collect(Collectors.toList());
-    }*/
-
-/*    public Set<User> addLike(Long userId, Long filmId) {
-        var user = userRepository.findById(userId);
-        var film = filmRepository.findById(filmId);
-
-        if (user.isEmpty() || film.isEmpty())
-            throw new DoesntExistException(
-                    "Невозможно получить несуществующий объект (фильм/пользователь)");
-
-        film.get().getLikes().add(user.get());
-        return film.get().getLikes();
-    }
-
-    public Set<User> deleteLike(Long userId, Long filmId) {
-        var user = userRepository.findById(userId);
-        var film = filmRepository.findById(filmId);
-
-        if (user.isEmpty() || film.isEmpty())
-            throw new DoesntExistException(
-                    "Невозможно получить несуществующий объект (фильм/пользователь)");
-
-        film.get().getLikes().remove(user.get());
-        return film.get().getLikes();
     }*/
 }

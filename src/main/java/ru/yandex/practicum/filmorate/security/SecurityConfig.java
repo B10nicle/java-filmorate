@@ -36,8 +36,7 @@ public class SecurityConfig {
                         "/css/**",
                         "/img/**")
                 .permitAll()
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .authenticationProvider(daoAuthenticationProvider())
                 .formLogin()
@@ -58,9 +57,9 @@ public class SecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
-        var auth = new DaoAuthenticationProvider();
-        auth.setPasswordEncoder(passwordEncoder);
-        auth.setUserDetailsService(userService);
-        return auth;
+        var authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
     }
 }

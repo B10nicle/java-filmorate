@@ -95,28 +95,6 @@ public class UserController {
         return "redirect:/users";
     }
 
-/*    @PostMapping("/{id}/like/{userId}/add")
-    @ApiOperation("Add like")
-    public String addLike(@PathVariable Long userId,
-                          @PathVariable Long id,
-                          Model model) {
-        log.debug("User with ID: {} added like to the film with ID: {}", userId, id);
-        var likes = service.addLike(userId, id);
-        model.addAttribute("likes", likes);
-        return "redirect:/users/{id}";
-    }
-
-    @GetMapping("/{id}/like/{userId}/delete")
-    @ApiOperation("Delete like")
-    public String deleteLike(@PathVariable Long userId,
-                             @PathVariable Long id,
-                             Model model) {
-        log.debug("User with ID: {} deleted like from the film with ID: {}", userId, id);
-        var likes = service.deleteLike(userId, id);
-        model.addAttribute("likes", likes);
-        return "redirect:/users/{id}";
-    }*/
-
 /*    @GetMapping("/{id}/friends")
     @ApiOperation("Get the list of friends")
     public String getFriends(@PathVariable Long id,

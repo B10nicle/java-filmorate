@@ -63,10 +63,18 @@
                     <td th:text="${film.name}"></td>
                     <td th:text="${film.description}"></td>
                     <td th:text="${film.duration}"></td>
-                    <td
-                            th:text="${#temporals.format(film.releaseDate,'dd.MM.yyyy')}"
-                    ></td>
-                    <td th:text="${film.likes.size()}"></td>
+                    <td th:text="${#temporals.format(film.releaseDate,'dd.MM.yyyy')}"></td>
+
+<!--                    <td style="width: 0">
+                        <div class="edit-delete">
+                            <a class="button" th:href="@{'films/' + ${film.id} + '/like' + ${user.id} + '/add'}"
+                            >Add like</a>
+                        </div>
+                        <div class="edit-delete">
+                            <a class="button" th:href="@{'films/' + ${film.id} + '/like' + ${user.id} + '/delete'}"
+                            >Delete like</a>
+                        </div>
+                    </td>-->
 
                     <td style="width: 0">
                         <div class="edit-delete">
