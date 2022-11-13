@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
-import ru.yandex.practicum.filmorate.dto.UserRegistrationDto;
-import ru.yandex.practicum.filmorate.entity.User;
+import ru.yandex.practicum.filmorate.dto.UserDto;
 
 import java.util.List;
 
@@ -19,5 +18,5 @@ public interface Services<T> {
 
     List<T> search(String keyword);
 
-    User save(UserRegistrationDto userRegistrationDto);
+    void save(UserDto userDto);
 }

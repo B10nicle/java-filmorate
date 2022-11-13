@@ -1,24 +1,20 @@
 package ru.yandex.practicum.filmorate.service;
 
-import com.google.common.collect.Sets;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.yandex.practicum.filmorate.dto.UserRegistrationDto;
-import ru.yandex.practicum.filmorate.entity.Film;
-import ru.yandex.practicum.filmorate.entity.Role;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
+import org.springframework.security.core.userdetails.UserDetails;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
+import org.springframework.security.core.GrantedAuthority;
+import ru.yandex.practicum.filmorate.dto.UserMapper;
+import ru.yandex.practicum.filmorate.dto.UserDto;
+import ru.yandex.practicum.filmorate.entity.Role;
 import ru.yandex.practicum.filmorate.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Oleg Khilko
@@ -28,25 +24,19 @@ import java.util.stream.Collectors;
 public class UserService implements Services<User>, UserDetailsService {
     private final UserRepository userRepository;
     private final FilmRepository filmRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     public UserService(UserRepository userRepository,
                        FilmRepository filmRepository,
-                       PasswordEncoder passwordEncoder) {
+                       UserMapper userMapper) {
         this.userRepository = userRepository;
         this.filmRepository = filmRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public User save(UserRegistrationDto userRegistrationDto) {
-        var user = new User(userRegistrationDto.getFirstName(),
-                userRegistrationDto.getLastName(),
-                passwordEncoder.encode(userRegistrationDto.getPassword()),
-                userRegistrationDto.getEmail(),
-                new Role("ROLE_USER"));
-
-        return userRepository.save(user);
+    public void save(UserDto userDto) {
+        userRepository.save(userMapper.mapToEntity(userDto));
     }
 
     @Override

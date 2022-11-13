@@ -1,21 +1,21 @@
 package ru.yandex.practicum.filmorate.entity;
 
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.Data;
+import org.hibernate.Hibernate;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 /**
  * @author Oleg Khilko
  */
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "role")
-@ToString(exclude = "users")
 public class Role {
 
     @Id
@@ -31,5 +31,26 @@ public class Role {
 
     public Role(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Role role = (Role) o;
+        return id != null && Objects.equals(id, role.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

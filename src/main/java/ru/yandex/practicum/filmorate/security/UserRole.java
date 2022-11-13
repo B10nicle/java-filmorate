@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.security;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import com.google.common.collect.Sets;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -12,9 +13,9 @@ import static ru.yandex.practicum.filmorate.security.UserPermission.*;
  * @author Oleg Khilko
  */
 
-
 public enum UserRole {
-    STUDENT(Sets.newHashSet()), ADMIN(Sets.newHashSet(STUDENT_READ, STUDENT_WRITE, COURSE_READ, COURSE_WRITE));
+    ADMIN(Sets.newHashSet(USER_READ, USER_WRITE, FILM_READ, FILM_WRITE)),
+    USER(Sets.newHashSet());
 
     private final Set<UserPermission> permissions;
 

@@ -1,8 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
 import lombok.AllArgsConstructor;
-import ru.yandex.practicum.filmorate.dto.UserRegistrationDto;
-import ru.yandex.practicum.filmorate.entity.User;
+import ru.yandex.practicum.filmorate.dto.UserDto;
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
 import ru.yandex.practicum.filmorate.entity.Film;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author Oleg Khilko
@@ -24,8 +21,7 @@ public class FilmService implements Services<Film> {
     private final UserRepository userRepository;
 
     @Override
-    public User save(UserRegistrationDto userRegistrationDto) {
-        return null;
+    public void save(UserDto userDto) {
     }
 
     @Override

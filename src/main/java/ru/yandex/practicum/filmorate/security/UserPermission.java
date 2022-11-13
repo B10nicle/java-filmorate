@@ -6,10 +6,10 @@ package ru.yandex.practicum.filmorate.security;
 
 
 public enum UserPermission {
-    STUDENT_READ("student:read"),
-    STUDENT_WRITE("student:write"),
-    COURSE_READ("course:read"),
-    COURSE_WRITE("course:write");
+    USER_READ("user:read"),
+    USER_WRITE("user:write"),
+    FILM_READ("film:read"),
+    FILM_WRITE("film:write");
 
     private final String permission;
 

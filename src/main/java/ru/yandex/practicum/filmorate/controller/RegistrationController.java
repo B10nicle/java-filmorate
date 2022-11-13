@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.yandex.practicum.filmorate.dto.UserRegistrationDto;
+import ru.yandex.practicum.filmorate.dto.UserDto;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.yandex.practicum.filmorate.service.UserService;
@@ -32,13 +32,13 @@ public class RegistrationController {
     @GetMapping
     @ApiOperation("show registration form")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new UserRegistrationDto());
+        model.addAttribute("user", new UserDto());
         return "registration";
     }
 
     @PostMapping
     @ApiOperation("register user account")
-    public String registerUserAccount(@Valid @ModelAttribute("user") UserRegistrationDto userDto) {
+    public String registerUserAccount(@Valid @ModelAttribute("user") UserDto userDto) {
         log.debug("Request to register userDto: {}", userDto);
         service.save(userDto);
         return "redirect:/registration?success";
