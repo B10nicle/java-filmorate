@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.ui.Model;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
@@ -19,14 +20,11 @@ import javax.validation.Valid;
 
 @Slf4j
 @Controller
+@AllArgsConstructor
 @RequestMapping("/users")
 @Tag(name = "user-controller", description = "User Service API")
 public class UserController {
     private final UserService service;
-
-    public UserController(UserService service) {
-        this.service = service;
-    }
 
     @GetMapping()
     @ApiOperation("Show all users")

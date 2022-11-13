@@ -13,6 +13,7 @@ import ru.yandex.practicum.filmorate.dto.UserDto;
 import ru.yandex.practicum.filmorate.entity.Role;
 import ru.yandex.practicum.filmorate.entity.User;
 import org.springframework.stereotype.Service;
+import lombok.AllArgsConstructor;
 
 import java.util.*;
 
@@ -21,18 +22,11 @@ import java.util.*;
  */
 
 @Service
+@AllArgsConstructor
 public class UserService implements Services<User>, UserDetailsService {
     private final UserRepository userRepository;
     private final FilmRepository filmRepository;
     private final UserMapper userMapper;
-
-    public UserService(UserRepository userRepository,
-                       FilmRepository filmRepository,
-                       UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.filmRepository = filmRepository;
-        this.userMapper = userMapper;
-    }
 
     @Override
     public void save(UserDto userDto) {
@@ -57,8 +51,9 @@ public class UserService implements Services<User>, UserDetailsService {
 
     @Override
     public List<User> search(String keyword) {
-/*        if (keyword != null)
-            return userRepository.search(keyword);*/
+
+        if (keyword != null)
+            return userRepository.search(keyword);
 
         return userRepository.findAll();
     }

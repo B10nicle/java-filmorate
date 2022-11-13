@@ -4,10 +4,7 @@ import ru.yandex.practicum.filmorate.constraint.ReleaseDate;
 import org.hibernate.Hibernate;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -49,11 +46,6 @@ public class Film {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "likes")
     private Set<User> likes;
-
-/*    @Override
-    public int compareTo(Film o) {
-        return o.getLikes().size() - this.getLikes().size();
-    }*/
 
     @Override
     public boolean equals(Object o) {

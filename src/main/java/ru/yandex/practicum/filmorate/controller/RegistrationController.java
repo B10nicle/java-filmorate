@@ -1,15 +1,13 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import ru.yandex.practicum.filmorate.dto.UserDto;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import ru.yandex.practicum.filmorate.service.UserService;
 import org.springframework.stereotype.Controller;
+import ru.yandex.practicum.filmorate.dto.UserDto;
+import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.ui.Model;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
@@ -20,18 +18,16 @@ import javax.validation.Valid;
 
 @Slf4j
 @Controller
+@AllArgsConstructor
 @RequestMapping("/registration")
 @Tag(name = "registration-controller", description = "User Registration API")
 public class RegistrationController {
     private final UserService service;
 
-    public RegistrationController(UserService service) {
-        this.service = service;
-    }
-
     @GetMapping
     @ApiOperation("show registration form")
     public String showRegistrationForm(Model model) {
+        log.debug("Request to show registration form");
         model.addAttribute("user", new UserDto());
         return "registration";
     }

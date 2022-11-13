@@ -1,8 +1,8 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import lombok.AllArgsConstructor;
 import ru.yandex.practicum.filmorate.entity.User;
 import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.service.UserService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.stereotype.Controller;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.ui.Model;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
 
@@ -97,15 +97,15 @@ public class FilmController {
         return "redirect:/films";
     }
     
-/*    @GetMapping("/popular")
+    @GetMapping("/popular")
     @ApiOperation("Get the most popular films")
     public String getPopularFilms(Model model,
                                   @RequestParam(defaultValue = "10") int count) {
         log.debug("Request to show {} most popular films", count);
-        var films = service.getPopularFilms(count);
+        var films = filmService.getPopularFilms(count);
         model.addAttribute("films", films);
         return "popular";
-    }*/
+    }
 
     @PostMapping("/{id}/like/{userId}/add")
     @ApiOperation("Add like")

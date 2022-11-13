@@ -1,13 +1,15 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.AllArgsConstructor;
-import ru.yandex.practicum.filmorate.dto.UserDto;
 import ru.yandex.practicum.filmorate.exception.DoesntExistException;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
+import ru.yandex.practicum.filmorate.repository.UserRepository;
+import ru.yandex.practicum.filmorate.dto.UserDto;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.repository.UserRepository;
+import lombok.AllArgsConstructor;
 
+import java.util.stream.Collectors;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -59,13 +61,17 @@ public class FilmService implements Services<Film> {
         filmRepository.deleteById(id);
     }
 
-/*    public List<Film> getPopularFilms(int amount) {
+    public List<Film> getPopularFilms(int amount) {
         return filmRepository.findAll()
                 .stream()
-                .sorted(Film::compareTo)
+                .sorted(getLikes().reversed())
                 .limit(amount)
                 .collect(Collectors.toList());
-    }*/
+    }
+
+    private static Comparator<Film> getLikes() {
+        return Comparator.comparingInt(film -> film.getLikes().size());
+    }
 
     public int addLike(Long userId, Long filmId) {
         var user = userRepository.findById(userId);
