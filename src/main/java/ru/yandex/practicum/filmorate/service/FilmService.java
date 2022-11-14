@@ -44,8 +44,8 @@ public class FilmService implements Services<Film> {
 
     @Override
     public List<Film> search(String keyword) {
-/*        if (keyword != null)
-            return filmRepository.search(keyword);*/
+        if (keyword != null)
+            return filmRepository.search(keyword);
 
         return filmRepository.findAll();
     }
@@ -64,12 +64,12 @@ public class FilmService implements Services<Film> {
     public List<Film> getPopularFilms(int amount) {
         return filmRepository.findAll()
                 .stream()
-                .sorted(getLikes().reversed())
+                .sorted(compareLikesSize().reversed())
                 .limit(amount)
                 .collect(Collectors.toList());
     }
 
-    private static Comparator<Film> getLikes() {
+    private static Comparator<Film> compareLikesSize() {
         return Comparator.comparingInt(film -> film.getLikes().size());
     }
 
