@@ -1,67 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
-  <meta charset="UTF-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" type="text/css" th:href="@{/css/normalize.css}"/>
-  <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
-  <link rel="shortcut icon" th:href="@{img}"/>
-  <title>FilmoRate | Homepage</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/normalize.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+    <link rel="shortcut icon" th:href="@{img}"/>
+    <title>FilmoRate | Homepage</title>
 </head>
 <body>
 <div class="page">
-  <header>
-    <div class="header">
-      <a class="logo" href="/home"
-      ><img
-              class="logo__filmorate"
-              src="/img/logo_filmorate.png"
-              alt="Логотип ФильмоРейт"
-      /></a>
-      <div class="heading">
-        <h1 class="title"><a class="title" href="/home">FilmoRate</a></h1>
-        <h2 class="subtitle">Interactive panel for films selection</h2>
-      </div>
-      <form
-              class="search-box"
-              name="search"
-              th:action="@{/films}"
-              method="get"
-      >
-        <label for="search-input"></label>
-        <input id="search-input" type="text" name="keyword"/>
-        <button type="submit">Search</button>
-      </form>
-    </div>
-    <nav class="buttons-box">
-      <div class="buttons">
-        <a class="button" href="/films/add-film">Add film</a>
-        <a class="button" href="/users/add-user">Add user</a>
-        <a class="button" href="/films">Films</a>
-        <a class="button" href="/films/popular">Popular films</a>
-        <a class="button" href="/users">Users</a>
-        <a class="button" href="/home">Home</a>
-      </div>
-    </nav>
-  </header>
-  <main class="content-homepage">
-    <div class="heading">
-      <h1 class="title">Sorry, we cannot find anything.</h1>
-      <h2 class="subtitle">Please try again.</h2>
-    </div>
-  </main>
-  <footer class="footer">
-    <div class="links">
-      <a class="author" href="https://github.com/B10nicle">Oleg Khilko</a>
-      <a class="github" href="https://github.com/B10nicle"
-      ><img
-              class="logo__github"
-              src="/img/logo_github.svg"
-              alt="Логотип ГитХаб"
-      /></a>
-    </div>
-  </footer>
+    <header>
+        <div class="header">
+            <a class="logo" href="/home"
+            ><img
+                    class="logo__filmorate"
+                    src="/img/logo_filmorate.png"
+                    alt="Логотип ФильмоРейт"
+            /></a>
+            <div class="heading">
+                <h1 class="title"><a class="title" href="/home">FilmoRate</a></h1>
+                <h2 class="subtitle">Interactive panel for films selection</h2>
+            </div>
+            <form
+                    class="search-box"
+                    name="search"
+                    th:action="@{/films}"
+                    method="get"
+            >
+                <label for="search-input"></label>
+                <input id="search-input" type="text" name="keyword"/>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <nav class="buttons-box">
+            <div class="buttons">
+                <a class="button" href="/films/add-film">Add film</a>
+                <a class="button" href="/users/add-user">Add user</a>
+                <a class="button" href="/films">Films</a>
+                <a class="button" href="/films/popular">Popular films</a>
+                <a class="button" href="/users">Users</a>
+                <a class="button" href="/home">Home</a>
+            </div>
+        </nav>
+    </header>
+    <main class="content-homepage">
+        <div class="heading">
+            <h1 class="title">Sorry, we cannot find anything.</h1>
+            <h2 class="subtitle">Please try again.</h2>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="links">
+            <a class="author" href="https://github.com/B10nicle">Oleg Khilko</a>
+            <a class="github" href="https://github.com/B10nicle"
+            ><img
+                    class="logo__github"
+                    src="/img/logo_github.svg"
+                    alt="Логотип ГитХаб"
+            /></a>
+        </div>
+    </footer>
 </div>
 </body>
 </html>

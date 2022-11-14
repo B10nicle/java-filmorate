@@ -12,8 +12,6 @@ import java.util.Set;
  * @author Oleg Khilko
  *//*
 
-
-
 public class User implements UserDetails {
 
     private final Set<? extends GrantedAuthority> grantedAuthorities;

@@ -4,7 +4,6 @@ package ru.yandex.practicum.filmorate.security;
  * @author Oleg Khilko
  */
 
-
 public enum UserPermission {
     USER_READ("user:read"),
     USER_WRITE("user:write"),

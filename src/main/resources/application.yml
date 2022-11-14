@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/filmorate
+    password: root
+  mvc:
+    format:
+      time: HH:mm:ss
+      date: yyyy-MM-dd
+      date-time: yyyy-MM-dd HH:mm:ss
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+logging:
+  level:
+    ru:
+      yandex:
+        practicum: debug
+server:
+  error:
+    include-message: always
