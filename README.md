@@ -1,4 +1,4 @@
-## Яндекс Практикум: проект "Filmorate"
+## Яндекс Практикум: проект "FilmoRate"
 
 Технологии: Java + Spring Boot + Maven + Lombok + JUnit + RESTful API
 
