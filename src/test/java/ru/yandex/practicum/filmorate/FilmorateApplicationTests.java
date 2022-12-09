@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 @SpringBootTest
 class FilmorateApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 }
