@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.repository;
 
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import ru.yandex.practicum.filmorate.repository.film.FilmRepositoryImpl;
 import ru.yandex.practicum.filmorate.controller.FilmController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +10,6 @@ import ru.yandex.practicum.filmorate.entity.Mpa;
 import org.junit.jupiter.api.BeforeEach;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.repository.film.FilmRepositoryImpl;
 
 import java.time.LocalDate;
 import java.util.List;
