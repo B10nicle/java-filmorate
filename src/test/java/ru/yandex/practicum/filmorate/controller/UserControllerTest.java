@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import ru.yandex.practicum.filmorate.exception.DoesntFindException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -116,7 +116,7 @@ class UserControllerTest {
     void incorrectIdExceptionTest() {
         userSample.setId(-5);
         var exception = assertThrows(
-                DoesntFindException.class,
+                NotFoundException.class,
                 () -> controller.updateUser(userSample)
         );
         assertEquals("User does not exist", exception.getMessage());
@@ -131,9 +131,9 @@ class UserControllerTest {
     }
 
     @Test
-    void doesntFindExceptionTest() {
+    void notFoundExceptionTest() {
         var exception = assertThrows(
-                DoesntFindException.class,
+                NotFoundException.class,
                 () -> controller.getUserById(-5)
         );
         assertEquals("User does not exist", exception.getMessage());
@@ -153,10 +153,10 @@ class UserControllerTest {
     }
 
     @Test
-    void userDoesntFindExceptionTest() {
+    void userNotFoundExceptionTest() {
         var user = controller.createUser(userSample);
         var exception = assertThrows(
-                DoesntFindException.class,
+                NotFoundException.class,
                 () -> controller.addFriend(user.getId(), -20)
         );
         assertEquals("User does not exist", exception.getMessage());
@@ -178,10 +178,10 @@ class UserControllerTest {
     }
 
     @Test
-    void userDoesntFindExceptionWhenRemoveTest() {
+    void userNotFoundExceptionWhenRemoveTest() {
         var user = controller.createUser(userSample);
         var exception = assertThrows(
-                DoesntFindException.class,
+                NotFoundException.class,
                 () -> controller.removeFriend(user.getId(), -20)
         );
         assertEquals("User does not exist", exception.getMessage());

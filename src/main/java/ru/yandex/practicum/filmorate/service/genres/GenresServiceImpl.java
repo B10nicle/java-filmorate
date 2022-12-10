@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.service.genres;
 
 import ru.yandex.practicum.filmorate.repository.genres.GenresRepository;
-import ru.yandex.practicum.filmorate.exception.DoesntFindException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.entity.Genre;
 import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class GenresServiceImpl implements GenresService {
     @Override
     public Genre getGenre(int id) {
         return repository.getGenreById(id).orElseThrow(() -> {
-            throw new DoesntFindException("Genre with ID#" + id + " does not exist.");
+            throw new NotFoundException("Genre with ID#" + id + " does not exist.");
         });
     }
 

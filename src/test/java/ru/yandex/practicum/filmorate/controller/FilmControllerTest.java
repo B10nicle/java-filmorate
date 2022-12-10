@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import ru.yandex.practicum.filmorate.exception.DoesntFindException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.entity.Film;
 import ru.yandex.practicum.filmorate.entity.User;
 import ru.yandex.practicum.filmorate.entity.Mpa;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -134,7 +133,7 @@ class FilmControllerTest {
         filmSample.setId(-5);
 
         var exception = assertThrows(
-                DoesntFindException.class,
+                NotFoundException.class,
                 () -> controller.updateFilm(filmSample)
         );
         assertEquals("Film doesn't exist", exception.getMessage());
@@ -145,7 +144,7 @@ class FilmControllerTest {
         var film = controller.createFilm(filmSample);
 
         var exception = assertThrows(
-                DoesntFindException.class,
+                NotFoundException.class,
                 () -> controller.addLike(film.getId(), -5)
         );
         assertEquals("User doesn't exist", exception.getMessage());
@@ -175,7 +174,7 @@ class FilmControllerTest {
     @Test
     void notFoundFilmExceptionTest() {
         var exception = assertThrows(
-                DoesntFindException.class,
+                NotFoundException.class,
                 () -> controller.addLike(-5, user.getId())
         );
         assertEquals("Film doesn't exist", exception.getMessage());
@@ -184,7 +183,7 @@ class FilmControllerTest {
     @Test
     void deleteLikeFilmExceptionTest() {
         var exception = assertThrows(
-                DoesntFindException.class,
+                NotFoundException.class,
                 () -> controller.deleteLike(-5, user.getId())
         );
         assertEquals("Film doesn't exist", exception.getMessage());
@@ -206,7 +205,7 @@ class FilmControllerTest {
         var film = controller.createFilm(filmSample);
 
         var exception = assertThrows(
-                DoesntFindException.class,
+                NotFoundException.class,
                 () -> controller.deleteLike(film.getId(), -5)
         );
         assertEquals("User doesn't exist", exception.getMessage());

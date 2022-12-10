@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import ru.yandex.practicum.filmorate.service.user.UserServiceImpl;
+import ru.yandex.practicum.filmorate.service.user.UserService;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-    private final UserServiceImpl service;
+    private final UserService service;
 
     @PostMapping()
     public User createUser(@RequestBody User user) {

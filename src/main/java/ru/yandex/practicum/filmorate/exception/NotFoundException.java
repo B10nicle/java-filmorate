@@ -4,8 +4,8 @@ package ru.yandex.practicum.filmorate.exception;
  * @author Oleg Khilko
  */
 
-public class DoesntFindException extends RuntimeException {
-    public DoesntFindException(String message) {
+public class NotFoundException extends RuntimeException {
+    public NotFoundException(String message) {
         super(message);
     }
 }

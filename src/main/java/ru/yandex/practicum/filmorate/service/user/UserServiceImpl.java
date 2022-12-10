@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.service.user;
 
 import ru.yandex.practicum.filmorate.repository.user.UserRepository;
-import ru.yandex.practicum.filmorate.exception.DoesntFindException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.entity.User;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user) {
         if (user == null) throw new ValidationException("User cannot be updated");
-        if (repository.getUserById(user.getId()).isEmpty()) throw new DoesntFindException("User does not exist");
+        if (repository.getUserById(user.getId()).isEmpty()) throw new NotFoundException("User does not exist");
         validateUser(user);
 
         return repository.updateUser(user).get();
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(int userId) {
         return repository.getUserById(userId).orElseThrow(() -> {
-            throw new DoesntFindException("User does not exist");
+            throw new NotFoundException("User does not exist");
         });
     }
 

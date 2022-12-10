@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.service.film;
 import ru.yandex.practicum.filmorate.repository.genres.GenresRepository;
 import ru.yandex.practicum.filmorate.repository.film.FilmRepository;
 import ru.yandex.practicum.filmorate.repository.user.UserRepository;
-import ru.yandex.practicum.filmorate.exception.DoesntFindException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.repository.mpa.MpaRepository;
 import ru.yandex.practicum.filmorate.entity.Genre;
@@ -35,7 +35,7 @@ public class FilmServiceImpl implements FilmService {
         validateFilm(film);
         var mpa = mpaRepository.getMpaById(film.getMpa().getId())
                 .orElseThrow(() -> {
-                    throw new DoesntFindException("MPA doesn't exist");
+                    throw new NotFoundException("MPA doesn't exist");
                 });
         film.setId(generateId());
         addFilmGenres(film);
@@ -47,11 +47,11 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public Film updateFilm(Film film) {
         if (film == null) throw new ValidationException("Film cannot be updated");
-        if (filmRepository.getFilmById(film.getId()).isEmpty()) throw new DoesntFindException("Film doesn't exist");
+        if (filmRepository.getFilmById(film.getId()).isEmpty()) throw new NotFoundException("Film doesn't exist");
         validateFilm(film);
         var mpa = mpaRepository.getMpaById(film.getMpa().getId())
                 .orElseThrow(() -> {
-                    throw new DoesntFindException("MPA doesn't exist");
+                    throw new NotFoundException("MPA doesn't exist");
                 });
         addFilmGenres(film);
         film.setMpa(mpa);
@@ -67,18 +67,18 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public Film getFilmById(int id) {
         return filmRepository.getFilmById(id).orElseThrow(() -> {
-            throw new DoesntFindException("Film doesn't exist");
+            throw new NotFoundException("Film doesn't exist");
         });
     }
 
     @Override
     public void addLike(int userId, int filmId) {
         userRepository.getUserById(userId).orElseThrow(() -> {
-            throw new DoesntFindException("User doesn't exist");
+            throw new NotFoundException("User doesn't exist");
         });
 
         var film = filmRepository.getFilmById(filmId).orElseThrow(() -> {
-            throw new DoesntFindException("Film doesn't exist");
+            throw new NotFoundException("Film doesn't exist");
         });
         filmRepository.addLike(film, userId);
     }
@@ -86,10 +86,10 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public void deleteLike(int userId, int filmId) {
         userRepository.getUserById(userId).orElseThrow(() -> {
-            throw new DoesntFindException("User doesn't exist");
+            throw new NotFoundException("User doesn't exist");
         });
         var film = filmRepository.getFilmById(filmId).orElseThrow(() -> {
-            throw new DoesntFindException("Film doesn't exist");
+            throw new NotFoundException("Film doesn't exist");
         });
         filmRepository.deleteLike(film, userId);
     }
@@ -112,7 +112,7 @@ public class FilmServiceImpl implements FilmService {
                     .collect(Collectors.toList());
             var genres = genresRepository.getGenresByIds(genresIds);
             if (genres.size() != genresIds.size()) {
-                throw new DoesntFindException("Genre doesn't exist");
+                throw new NotFoundException("Genre doesn't exist");
             }
             film.getGenres().clear();
             film.getGenres().addAll(genres.values());
