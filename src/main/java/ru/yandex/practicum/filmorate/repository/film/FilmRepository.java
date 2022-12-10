@@ -1,9 +1,11 @@
 package ru.yandex.practicum.filmorate.repository.film;
 
+import ru.yandex.practicum.filmorate.entity.Genre;
 import ru.yandex.practicum.filmorate.entity.Film;
 
 import java.util.Optional;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Oleg Khilko
@@ -24,4 +26,6 @@ public interface FilmRepository {
     void deleteLike(Film film, int userId);
 
     List<Film> getPopularFilms(int count);
+
+    Map<Integer, Genre> getGenresByIds(List<Integer> ids);
 }

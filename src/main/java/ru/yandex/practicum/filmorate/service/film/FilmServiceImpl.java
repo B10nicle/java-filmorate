@@ -1,11 +1,10 @@
 package ru.yandex.practicum.filmorate.service.film;
 
-import ru.yandex.practicum.filmorate.repository.genres.GenresRepository;
 import ru.yandex.practicum.filmorate.repository.film.FilmRepository;
 import ru.yandex.practicum.filmorate.repository.user.UserRepository;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.repository.mpa.MpaRepository;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.entity.Genre;
 import ru.yandex.practicum.filmorate.entity.Film;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FilmServiceImpl implements FilmService {
-    private final GenresRepository genresRepository;
     private final FilmRepository filmRepository;
     private final UserRepository userRepository;
     private final MpaRepository mpaRepository;
@@ -110,7 +108,7 @@ public class FilmServiceImpl implements FilmService {
                     .map(Genre::getId)
                     .distinct()
                     .collect(Collectors.toList());
-            var genres = genresRepository.getGenresByIds(genresIds);
+            var genres = filmRepository.getGenresByIds(genresIds);
             if (genres.size() != genresIds.size()) {
                 throw new NotFoundException("Genre doesn't exist");
             }
