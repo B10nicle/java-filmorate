@@ -1,11 +1,14 @@
 package ru.yandex.practicum.filmorate.entity;
 
-import ru.yandex.practicum.filmorate.constraints.ReleaseDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NonNull;
 import lombok.Data;
 
-import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,27 +16,27 @@ import java.util.Set;
  */
 
 @Data
-public class Film implements Comparable<Film> {
-    private Long id;
+@Builder
+@AllArgsConstructor
+public class Film {
 
-    @NotBlank
+    private int id;
+
+    @NonNull
     private String name;
 
-    @Positive
-    private int duration;
-
-    @NotBlank
-    @Size(max = 200)
+    @NonNull
     private String description;
 
-    @NotNull
-    @ReleaseDate
+    @NonNull
     private LocalDate releaseDate;
 
-    private Set<Long> likes = new HashSet<>();
+    private int duration;
 
-    @Override
-    public int compareTo(Film o) {
-        return o.getLikes().size() - this.getLikes().size();
-    }
+    @NonNull
+    private Mpa mpa;
+
+    private final Set<Integer> likes = new HashSet<>();
+
+    private final List<Genre> genres = new ArrayList<>();
 }

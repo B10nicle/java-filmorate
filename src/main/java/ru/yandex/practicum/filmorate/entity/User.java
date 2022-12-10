@@ -1,8 +1,10 @@
 package ru.yandex.practicum.filmorate.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NonNull;
 import lombok.Data;
 
-import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,19 +14,23 @@ import java.util.Set;
  */
 
 @Data
+@Builder
+@AllArgsConstructor
 public class User {
-    private Long id;
 
-    private String name;
+    private Integer id;
 
-    @Email
+    @NonNull
     private String email;
 
-    @NotBlank
+    @NonNull
     private String login;
 
-    @PastOrPresent
+    @NonNull
+    private String name;
+
+    @NonNull
     private LocalDate birthday;
 
-    private Set<Long> friends = new HashSet<>();
+    private final Set<Integer> friends = new HashSet<>();
 }
