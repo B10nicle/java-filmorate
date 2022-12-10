@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.repository;
 
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import ru.yandex.practicum.filmorate.repository.genres.GenresRepository;
 import ru.yandex.practicum.filmorate.controller.FilmController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +9,7 @@ import ru.yandex.practicum.filmorate.entity.Mpa;
 import org.junit.jupiter.api.BeforeEach;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.filmorate.repository.film.FilmRepositoryImpl;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +17,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Oleg Khilko
@@ -29,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GenresRepositoryTest {
 
     @Autowired
-    private final GenresRepository repository;
+    private final FilmRepositoryImpl repository;
 
     @Autowired
     private final FilmController controller;
@@ -46,23 +45,6 @@ class GenresRepositoryTest {
                         LocalDate.of(2010, 11, 15),
                         19,
                         new Mpa(1, "G")));
-    }
-
-    @Test
-    void getGenreByIdTest() {
-        assertThat(repository.getGenreById(4))
-                .isPresent()
-                .hasValueSatisfying(
-                        genre -> assertThat(genre).hasFieldOrPropertyWithValue("name", "Триллер"));
-    }
-
-    @Test
-    void getGenresTest() {
-        var genres = repository.getGenres();
-
-        assertEquals(genres.get(1).getName(), "Драма");
-        assertEquals(6, genres.size());
-        assertFalse(genres.isEmpty());
     }
 
     @Test

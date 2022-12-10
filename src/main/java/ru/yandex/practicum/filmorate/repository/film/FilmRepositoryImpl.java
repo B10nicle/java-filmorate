@@ -158,7 +158,7 @@ public class FilmRepositoryImpl implements FilmRepository {
                 resultSet.getInt("user_id"), filmId);
     }
 
-    private void addGenres(int filmId, List<Integer> genres) {
+    public void addGenres(int filmId, List<Integer> genres) {
         jdbcTemplate.batchUpdate(
                 "INSERT INTO film_genre (film_id, genre_id) VALUES (?,?)",
                 new BatchPreparedStatementSetter() {
@@ -174,7 +174,7 @@ public class FilmRepositoryImpl implements FilmRepository {
                 });
     }
 
-    private void removeGenres(int filmId, List<Integer> genres) {
+    public void removeGenres(int filmId, List<Integer> genres) {
         jdbcTemplate.batchUpdate(
                 "DELETE FROM film_genre WHERE film_id = ? AND genre_id = ?",
                 new BatchPreparedStatementSetter() {
